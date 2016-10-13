@@ -135,11 +135,13 @@ def range_stats(aligned_subset, perc=(95, 75)):
         stats_list[0].append(start)
         stats_list[1].append(end)
         stats_list[2].append(len(seq_str.strip('-n')))
-    stats_dict = collections.OrderedDict({"perc_length": scoreatpercentile(stats_list[2], perc[1]),
-                                          "med_length": scoreatpercentile(stats_list[2], per=50),
-                                          "mean_length": round(sum(stats_list[2]) / len(stats_list[2]), 2),
-                                          "max_length": max(stats_list[2]), "min_length": min(stats_list[2]),
-                                          "seq_no": len(stats_list[0])})
+    stats_dict = collections.OrderedDict()
+    stats_dict["perc_length"] = scoreatpercentile(stats_list[2], perc[1])
+    stats_dict["med_length"] = scoreatpercentile(stats_list[2], per=50)
+    stats_dict["mean_length"] = round(sum(stats_list[2]) / len(stats_list[2]), 2)
+    stats_dict["max_length"] = max(stats_list[2])
+    stats_dict["min_length"] = min(stats_list[2])
+    stats_dict["seq_no"] = len(stats_list[0])
 
     return stats_dict
 
