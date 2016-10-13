@@ -125,7 +125,7 @@ def profile_muscle(fas1, fas2, iters=2, gap_open=-400):
 # uses muscle to align two alignments, returning the aligned list
 
 
-def range_stats(aligned_subset, perc=(25, 75)):
+def range_stats(aligned_subset, perc=(95, 75)):
     stats_list = [[], [], []]
     for rec in aligned_subset:
         seq_str = str(rec.seq).lower()
@@ -135,18 +135,12 @@ def range_stats(aligned_subset, perc=(25, 75)):
         stats_list[0].append(start)
         stats_list[1].append(end)
         stats_list[2].append(len(seq_str.strip('-n')))
-    stats_dict = collections.OrderedDict({"min_start": min(stats_list[0]), "max_end": max(stats_list[1]),
-                                          "max_start": max(stats_list[0]), "min_end": min(stats_list[1]),
-                                          "mean_start": round(sum(stats_list[0])/len(stats_list[0]), 2),
-                                          "mean_end": round(sum(stats_list[1])/len(stats_list[1]), 2),
-                                          "med_start": scoreatpercentile(stats_list[0], per=50),
-                                          "med_end": scoreatpercentile(stats_list[1], per=50),
-                                          "perc_start": scoreatpercentile(stats_list[0], perc[0]),
-                                          "perc_end": scoreatpercentile(stats_list[1], perc[1]),
-                                          "min_length": min(stats_list[2]), "max_length": max(stats_list[2]),
-                                          "mean_length": round(sum(stats_list[2])/len(stats_list[2]), 2),
+    stats_dict = collections.OrderedDict({"perc_length": scoreatpercentile(stats_list[2], perc[1]),
                                           "med_length": scoreatpercentile(stats_list[2], per=50),
-                                          "perc_length": scoreatpercentile(stats_list[2], perc[1])})
+                                          "mean_length": round(sum(stats_list[2]) / len(stats_list[2]), 2),
+                                          "max_length": max(stats_list[2]), "min_length": min(stats_list[2]),
+                                          "seq_no": len(stats_list[0])})
+
     return stats_dict
 
 full_stats_dict = {"min_start": "Minimum start", "max_end": "Maximum end",
