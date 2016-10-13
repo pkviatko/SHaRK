@@ -143,18 +143,11 @@ def range_stats(aligned_subset, perc=(95, 75)):
 
     return stats_dict
 
-full_stats_dict = {"min_start": "Minimum start", "max_end": "Maximum end",
-                   "max_start": "Maximum start", "min_end": "Minimum end",
-                   "mean_start": "Average start",
-                   "mean_end": "Average end",
-                   "med_start": "Median start",
-                   "med_end": "Median end",
-                   "perc_start": "Start under percentile",
-                   "perc_end": "End under percentile",
-                   "min_length": "Minimum length", "max_length": "Maximum length",
+full_stats_dict = {"min_length": "Minimum length", "max_length": "Maximum length",
                    "mean_length": "Average length",
                    "med_length": "Median length",
-                   "perc_length": "Length under percentile",
+                   "perc_length": "95-th percentile length",
+                   "seq_no": "Number of seqs in file",
                    "file": "File name"}
 
 
