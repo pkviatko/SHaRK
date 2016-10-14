@@ -90,3 +90,9 @@ ENV/
 
 #Binary packages
 .exe
+
+#PyCharm files
+.idea/
+
+#Drive files
+*.ini
