@@ -172,27 +172,27 @@ def best_trunc_range(split_aligned, perc=(25, 75)):
     return best_range
 
 
-def prof_align_score(prof_seq_list, ref_range):
+def align_score(rec_list, ref_range):
     score_list = []
     start = ref_range[0] - 1
     end = ref_range[1] - 1
-    for rec in prof_seq_list:
-        in_range = rec.seq[start].lower() in 'ATGCU'.lower() and rec.seq[end].lower() in 'ATGCU'.lower()
-        raw_length = len(str(rec.seq).strip('-nN'))
-        clean_seq_space = re.sub('[N-]', '', str(rec.seq), re.I)
-        clean_len_space = len(clean_seq_space)
-        clean_seq_space_deg = re.sub('[BDHKMNRSVWY]', '', clean_seq_space, re.I)
-        clean_len_space_deg = len(clean_seq_space_deg)
-        n_space = raw_length - clean_len_space
-        n_deg = clean_len_space - clean_len_space_deg
-        seq_score = [rec, in_range, clean_len_space, clean_len_space_deg, -n_space, -n_deg]
+    for rec in rec_list:
+        str_seq = str(rec.seq).lower()
+        len_stripped = len(str_seq.strip('-n'))
+        overlap_no_spaces = re.sub('[N-]', '', str_seq[start: end], re.I)
+        len_no_spaces = len(overlap_no_spaces)
+        overlap_no_spaces_deg = re.sub('[BDHKMNRSVWY]', '', overlap_no_spaces, re.I)
+        len_no_spaces_deg = len(overlap_no_spaces_deg)
+
+        seq_score = [rec, len_no_spaces, len_no_spaces_deg, len_stripped]
         score_list.append(seq_score)
     return score_list
 # takes the aligned sequences and returns the scores to each sequence from the profile alignment
 
 
-def best_prof_score_rec(score_list):
-    sorted_scores = sorted(score_list, key=itemgetter(1, 2, 3, 4, 5), reverse=True)
+def best_score_rec(rec_list, ref_range):
+    score_list = align_score(rec_list, ref_range)
+    sorted_scores = sorted(score_list, key=itemgetter(1, 2, 3), reverse=True)
     return sorted_scores[0][0]
 # takes a list of scores, compares them and returns the best score
 
