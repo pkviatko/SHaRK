@@ -279,6 +279,7 @@ def file_analysis(param_dict, file_path):
     del_option = param_dict["deletion_option"]
     source = param_dict["source_bool"]
     perc_toggle = param_dict["percentage_toggled"]
+    targ_range = param_dict["reference_target_range"]
 
     print(perc_toggle)
 
@@ -301,17 +302,12 @@ def file_analysis(param_dict, file_path):
     population.sort(key=species_name)
     if del_repeats:
         new_population = []
-        for rec in population:
-            if len(new_population):
-                if species_name(rec) == species_name(new_population[-1]):
-                    if compare_align_score(ref, new_population[-1], rec) == 2:
-                        new_population = new_population[:-1]
-                        new_population.append(rec)
-
-                else:
-                    new_population.append(rec)
-            else:
-                new_population.append(rec)
+        split_list = split_list_sp(population)
+        temp_files = temp_aligned_sp(split_list)
+        aligned = prof_align_loop(temp_files, ref_path)
+        split_aligned = split_list_sp(aligned)
+        for sp in split_aligned:
+            new_population.append(best_score_rec(sp, targ_range))
     else:
         new_population = population
     append_file(united_name, new_population)
