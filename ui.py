@@ -175,20 +175,6 @@ class MainWindow(QtGui.QMainWindow):
         help.addAction(about)
 
         self.center()
-        global param_dict
-        param_dict = {"output_directory": self.outputfilepathLine.text(),
-                      "reference_path": self.referencepathLine.text(),
-                      "positive_tags": self.req_tags_Line.text(),
-                      "negative_tags": self.un_tags_Line.text(),
-                      "delete_repeats": self.deleterepeatsBox.isChecked(),
-                      "unite_bool": self.uniteBox.isChecked(),
-                      "copies_number": self.copiesnumberSpinBox.value(),
-                      "deletion_factor": del_factor,
-                      "deletion_option": del_option,
-                      "source_bool": self.checksourceBox.isChecked(),
-                      "percentage_toggled": self.percentageRadio.isChecked(),
-                      "stats_option": "full",
-                      "reference_target_range": [85, 674]}
 
     def show_pref(self):
         pref_dialog.show()
@@ -285,6 +271,21 @@ Any files (*.*)''')
             print(reference_path)
 
     def first_step(self):
+        global param_dict
+        param_dict = {"output_directory": self.outputfilepathLine.text(),
+                      "reference_path": self.referencepathLine.text(),
+                      "positive_tags": self.req_tags_Line.text(),
+                      "negative_tags": self.un_tags_Line.text(),
+                      "delete_repeats": self.deleterepeatsBox.isChecked(),
+                      "unite_bool": self.uniteBox.isChecked(),
+                      "copies_number": self.copiesnumberSpinBox.value(),
+                      "deletion_factor": del_factor,
+                      "deletion_option": del_option,
+                      "source_bool": self.checksourceBox.isChecked(),
+                      "percentage_toggled": self.percentageRadio.isChecked(),
+                      "stats_option": "full",
+                      "reference_target_range": [85, 674]}
+
         if param_dict["stats_option"] == "full":
             stats_list = []
             for path in input_file_path:
