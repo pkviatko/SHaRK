@@ -200,19 +200,18 @@ def best_score_rec(rec_list, ref_range):
 def prof_align_loop(aligned_files, reference=False):
     if reference:
         aligned_files = reference + aligned_files
-    for file in aligned_files:
-        if aligned_files.index(file) == 1:
+
+    for i in range(1, len(aligned_files)):
+        if i == 1:
             prof = profile_muscle(aligned_files[0], aligned_files[1])
-            fas1 = open(r"temp\temp_prof.fas", 'w')
-            AlignIO.write(prof, fas1, 'fasta')
-            fas1.close()
-        elif aligned_files.index(file) > 1:
-            prof = profile_muscle(r"temp\temp_prof.fas", file)
-            fas1 = open("temp\temp_prof.fas", 'w')
-            AlignIO.write(prof, fas1, 'fasta')
-            fas1.close()
+
+        else:
+            prof = profile_muscle(r"temp\temp_prof.fas", aligned_files[i])
+        fas1 = open("temp\temp_prof.fas", 'w')
+        AlignIO.write(prof, fas1, 'fasta')
+        fas1.close()
     wh = open(r"temp\temp_prof.fas", 'r')
-    whole_aligned = [r for r in SeqIO.parse(wh, 'fasta')]
+    whole_aligned = [r for r in SeqIO.parse(wh, 'fasta')][1:]
     return whole_aligned
 
 
