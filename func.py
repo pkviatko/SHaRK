@@ -322,29 +322,7 @@ def file_analysis(param_dict, file_path):
     return elapsed
 
 
-def ref_align_score(reference, seq):
-    ref_seq = str(reference.seq)    # extracts the sequence from a reference record
-    aligned_seq = str(seq.seq)  # same for aligned sequence
-    a = (pairwise2.align.localmd(ref_seq, aligned_seq, 2, -1, -1000, -200, -400, -0))[0]    # aligns the sequences
-    coordinates = [[a[3] + 1, a[4] + 1]]    # gives the start and end coordinates of the second sequence (not reference)
-    return coordinates
-# tells the reference overlap coordinates after alignment
-
-
-def compare_align_score(reference, seq1, seq2):
-#    c1 = ref_align_score(reference, seq1)
-#    c2 = ref_align_score(reference, seq2)
-#    if (len(c1) or len(c2)) > 1:
-#       print('Warning, more than one possible alignment')
-#    if c1[0][0] >= c2[0][0] and c1[0][1] <= c2[0][1]:
-#        verdict = 2
-#    elif c1[0][0] <= c2[0][0] and c1[0][1] >= c2[0][1]:
-#       verdict = 1
-#    else:
-#        if len(seq1.seq.strip('nN-')) < len(seq2.seq.strip('nN-')):
-#            verdict = 2
-#        else:
-#            verdict = 1
+def compare_align_score(seq1, seq2):
     sq1 = str(seq1.seq)
     sq2 = str(seq2.seq)
     strp_sq1 = re.sub('[nN-]', '', sq1)
