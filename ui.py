@@ -187,7 +187,8 @@ class MainWindow(QtGui.QMainWindow):
                       "deletion_option": del_option,
                       "source_bool": self.checksourceBox.isChecked(),
                       "percentage_toggled": self.percentageRadio.isChecked(),
-                      "stats_option": "full"}
+                      "stats_option": "full",
+                      "reference_target_range": [85, 674]}
 
     def show_pref(self):
         pref_dialog.show()
