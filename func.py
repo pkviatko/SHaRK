@@ -1,8 +1,8 @@
+import collections
 import csv
 import ntpath
 import os.path
 import re
-import collections
 import subprocess
 import tempfile
 from itertools import groupby
@@ -10,7 +10,7 @@ from operator import itemgetter
 from random import sample
 from time import time
 
-from Bio import SeqIO, pairwise2, AlignIO
+from Bio import SeqIO, AlignIO
 from Bio.Align.Applications import MuscleCommandline
 from scipy.stats import scoreatpercentile
 
