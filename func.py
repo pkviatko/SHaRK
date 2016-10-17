@@ -301,8 +301,9 @@ def file_analysis(param_dict, file_path):
     if del_repeats:
         new_population = []
         split_list = split_list_sp(population)
-        temp_files = temp_aligned_sp(split_list)
-        aligned = prof_align_loop(temp_files, ref_path)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            temp_files = temp_aligned_sp(split_list, tmp_dir.__name__)
+            aligned = prof_align_loop(temp_files, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
             new_population.append(best_score_rec(sp, targ_range))
