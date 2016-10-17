@@ -306,7 +306,7 @@ def file_analysis(param_dict, file_path):
             temp_files = temp_aligned_sp(split_list)
         elif align_opt == "whole":
             whole_aligned = species_muscle(population)
-            temp_fas = tempfile.NamedTemporaryFile(suffix=".fas", dir=r"temp\\")
+            temp_fas = tempfile.NamedTemporaryFile(suffix=".fas", dir=r"temp").name
             fas = open(temp_fas, 'w')
             AlignIO.write(whole_aligned, fas, 'fasta')
             fas.close()
