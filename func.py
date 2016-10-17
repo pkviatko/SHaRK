@@ -108,7 +108,7 @@ def temp_aligned_sp(sp_group_list, dir_name):
         with tempfile.NamedTemporaryFile(suffix='.fas', delete=False, dir=dir_name, mode='w') as tmp:
             sp_aligned = species_muscle(sp)
             AlignIO.write(sp_aligned, tmp, 'fasta')
-            sp_prof_file_names.append(tmp.name)
+            sp_prof_file_names.append(tmp)
     return sp_prof_file_names
 # uses species_muscle to create temporary alignments for species sub-lists
 
@@ -200,7 +200,8 @@ def best_score_rec(rec_list, ref_range):
 def prof_align_loop(aligned_files, temp_dir, reference=False):
     if reference:
         aligned_files = [reference] + aligned_files
-    temp_fas = tempfile.NamedTemporaryFile(dir=temp_dir, suffix=".fas", delete=False)
+    temp_fas = tempfile.NamedTemporaryFile(dir=temp_dir, suffix=".fas", delete=False).name
+    print(temp_fas)
     for i in range(1, len(aligned_files)):
         if i == 1:
             prof = profile_muscle(aligned_files[0], aligned_files[1])
@@ -302,8 +303,8 @@ def file_analysis(param_dict, file_path):
         new_population = []
         split_list = split_list_sp(population)
         with tempfile.TemporaryDirectory() as tmp_dir:
-            temp_files = temp_aligned_sp(split_list, tmp_dir.name)
-            aligned = prof_align_loop(temp_files, ref_path)
+            temp_files = temp_aligned_sp(split_list, tmp_dir)
+            aligned = prof_align_loop(temp_files, tmp_dir, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
             new_population.append(best_score_rec(sp, targ_range))
