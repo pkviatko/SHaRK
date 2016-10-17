@@ -301,8 +301,16 @@ def file_analysis(param_dict, file_path):
     population.sort(key=species_name)
     if del_repeats:
         new_population = []
-        split_list = split_list_sp(population)
-        temp_files = temp_aligned_sp(split_list)
+        if align_opt == "sub":
+            split_list = split_list_sp(population)
+            temp_files = temp_aligned_sp(split_list)
+        elif align_opt == "whole":
+            whole_aligned = species_muscle(population)
+            temp_fas = tempfile.NamedTemporaryFile(suffix=".fas", dir=r"temp\\")
+            fas = open(temp_fas, 'w')
+            AlignIO.write(whole_aligned, fas, 'fasta')
+            fas.close()
+            temp_files = [temp_fas]
         aligned = prof_align_loop(temp_files, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
