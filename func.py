@@ -108,7 +108,7 @@ def temp_aligned_sp(sp_group_list, dir_name):
         with tempfile.NamedTemporaryFile(suffix='.fas', delete=False, dir=dir_name, mode='w') as tmp:
             sp_aligned = species_muscle(sp)
             AlignIO.write(sp_aligned, tmp, 'fasta')
-            sp_prof_file_names.append(tmp)
+            sp_prof_file_names.append(tmp.name)
     return sp_prof_file_names
 # uses species_muscle to create temporary alignments for species sub-lists
 
@@ -201,7 +201,6 @@ def prof_align_loop(aligned_files, temp_dir, reference=False):
     if reference:
         aligned_files = [reference] + aligned_files
     temp_fas = tempfile.NamedTemporaryFile(dir=temp_dir, suffix=".fas", delete=False).name
-    print(temp_fas)
     for i in range(1, len(aligned_files)):
         if i == 1:
             prof = profile_muscle(aligned_files[0], aligned_files[1])
