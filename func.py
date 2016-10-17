@@ -302,7 +302,7 @@ def file_analysis(param_dict, file_path):
         new_population = []
         split_list = split_list_sp(population)
         with tempfile.TemporaryDirectory() as tmp_dir:
-            temp_files = temp_aligned_sp(split_list, tmp_dir.__name__)
+            temp_files = temp_aligned_sp(split_list, tmp_dir.name)
             aligned = prof_align_loop(temp_files, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
