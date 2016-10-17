@@ -280,6 +280,7 @@ def file_analysis(param_dict, file_path):
     source = param_dict["source_bool"]
     perc_toggle = param_dict["percentage_toggled"]
     targ_range = param_dict["reference_target_range"]
+    align_opt = param_dict["alignment_option"]
 
     if ref_path != '':
         r = open(ref_path, 'r')
