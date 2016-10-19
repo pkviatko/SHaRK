@@ -102,7 +102,7 @@ def species_muscle(seqs, iters=2, gap_open=-400):
 # uses muscle to align a list of seqs returning aligned list
 
 
-def temp_aligned_sp(sp_group_list, dir_name=r"temp"):
+def temp_aligned_sp(sp_group_list, dir_name):
     sp_prof_file_names = []
     for sp in sp_group_list:
         with tempfile.NamedTemporaryFile(suffix='.fas', delete=False, dir=dir_name, mode='w') as tmp:
@@ -197,20 +197,20 @@ def best_score_rec(rec_list, ref_range):
 # takes a list of scores, compares them and returns the best score
 
 
-def prof_align_loop(aligned_files, reference=False):
+def prof_align_loop(aligned_files, temp_dir, reference=False):
     if reference:
         aligned_files = [reference] + aligned_files
-
+    temp_fas = tempfile.NamedTemporaryFile(dir=temp_dir, suffix=".fas", delete=False).name
     for i in range(1, len(aligned_files)):
         if i == 1:
             prof = profile_muscle(aligned_files[0], aligned_files[1])
 
         else:
-            prof = profile_muscle(r"temp\\temp_prof.fas", aligned_files[i])
-        fas1 = open("temp\\temp_prof.fas", 'w')
+            prof = profile_muscle(temp_fas, aligned_files[i])
+        fas1 = open(temp_fas, 'w')
         AlignIO.write(prof, fas1, 'fasta')
         fas1.close()
-    wh = open(r"temp\\temp_prof.fas", 'r')
+    wh = open(temp_fas, 'r')
     whole_aligned = [r for r in SeqIO.parse(wh, 'fasta')][1:]
     return whole_aligned
 
@@ -301,8 +301,9 @@ def file_analysis(param_dict, file_path):
     if del_repeats:
         new_population = []
         split_list = split_list_sp(population)
-        temp_files = temp_aligned_sp(split_list)
-        aligned = prof_align_loop(temp_files, ref_path)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            temp_files = temp_aligned_sp(split_list, tmp_dir)
+            aligned = prof_align_loop(temp_files, tmp_dir, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
             new_population.append(best_score_rec(sp, targ_range))
