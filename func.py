@@ -201,7 +201,7 @@ def prof_align_loop(aligned_files, temp_dir, reference=False):
     if reference:
         aligned_files = [reference] + aligned_files
     temp_fas = tempfile.NamedTemporaryFile(dir=temp_dir, suffix=".fas", delete=False).name
-    for i in range(1, len(aligned_files)+1):
+    for i in range(1, len(aligned_files)):
         if i == 1:
             prof = profile_muscle(aligned_files[0], aligned_files[1])
 
