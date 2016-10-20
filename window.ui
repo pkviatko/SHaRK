@@ -232,7 +232,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>60</y>
         <width>61</width>
         <height>22</height>
        </rect>
@@ -266,7 +266,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>40</y>
+        <y>90</y>
         <width>61</width>
         <height>22</height>
        </rect>
@@ -291,7 +291,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>80</y>
+        <y>130</y>
         <width>131</width>
         <height>18</height>
        </rect>
@@ -307,7 +307,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>110</y>
+        <y>150</y>
         <width>121</width>
         <height>18</height>
        </rect>
@@ -326,7 +326,7 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>10</y>
+        <y>60</y>
         <width>91</width>
         <height>21</height>
        </rect>
@@ -339,29 +339,13 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>40</y>
+        <y>90</y>
         <width>151</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
        <string>Maximum number of iterations</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="alignstat_checkBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>140</y>
-        <width>121</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output the &lt;span style=&quot; font-weight:600;&quot;&gt;statistics&lt;/span&gt; for the &lt;span style=&quot; font-weight:600;&quot;&gt;output files&lt;/span&gt; after &lt;span style=&quot; font-weight:600;&quot;&gt;alignment&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>Alignment statistics</string>
       </property>
      </widget>
      <widget class="QComboBox" name="range_comboBox">
@@ -478,6 +462,47 @@
        <string>Range percentile</string>
       </property>
      </widget>
+     <widget class="QComboBox" name="align_opt_comboBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>111</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>2</number>
+      </property>
+      <item>
+       <property name="text">
+        <string>Full set</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Tax subsets</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Even subsets</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Alignment option</string>
+      </property>
+     </widget>
      <zorder>range_comboBox</zorder>
      <zorder>gap_spinBox</zorder>
      <zorder>iters_spinBox</zorder>
@@ -485,11 +510,12 @@
      <zorder>silent_checkBox</zorder>
      <zorder>label_2</zorder>
      <zorder>label_3</zorder>
-     <zorder>alignstat_checkBox</zorder>
      <zorder>trunc_checkBox</zorder>
      <zorder>label_4</zorder>
      <zorder>perc_doubleSpinBox</zorder>
      <zorder>label_5</zorder>
+     <zorder>align_opt_comboBox</zorder>
+     <zorder>label_6</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
