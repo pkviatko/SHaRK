@@ -269,9 +269,9 @@ Any files (*.*)''')
 
     def first_step(self):
         global param_dict
-        if self.align_opt_comboBox.currentIdex() == 0:
+        if self.align_opt_comboBox.currentIndex() == 0:
             align_opt = 'whole'
-        elif self.align_opt_comboBox.currentIdex() == 1:
+        elif self.align_opt_comboBox.currentIndex() == 1:
             align_opt = 'sub'
         else:
             align_opt = 'even'
