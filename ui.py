@@ -195,7 +195,6 @@ class MainWindow(QtGui.QMainWindow):
         self.iters_spinBox.setValue(1)
         self.diagonal_checkBox.setChecked(False)
         self.silent_checkBox.setChecked(True)
-        self.alignstat_checkBox.setChecked(False)
         self.trunc_checkBox.setChecked(False)
         self.range_comboBox.setCurrentIndex(2)
         self.perc_doubleSpinBox.setValue(25)
@@ -207,8 +206,6 @@ class MainWindow(QtGui.QMainWindow):
         self.deletionpercentDoubleSpinBox.setValue(0)
         self.deletionnumberSpinBox.setValue(0)
         self.percentageRadio.setChecked(True)
-
-
 
     def set_del_option(self):
         global del_option
@@ -272,6 +269,13 @@ Any files (*.*)''')
 
     def first_step(self):
         global param_dict
+        if self.align_opt_comboBox.currentIndex() == 0:
+            align_opt = 'whole'
+        elif self.align_opt_comboBox.currentIndex() == 1:
+            align_opt = 'sub'
+        else:
+            align_opt = 'even'
+
         param_dict = {"output_directory": self.outputfilepathLine.text(),
                       "reference_path": self.referencepathLine.text(),
                       "positive_tags": self.req_tags_Line.text(),
@@ -284,7 +288,8 @@ Any files (*.*)''')
                       "source_bool": self.checksourceBox.isChecked(),
                       "percentage_toggled": self.percentageRadio.isChecked(),
                       "stats_option": "full",
-                      "reference_target_range": [85, 674]}
+                      "reference_target_range": [85, 674],
+                      "alignment_option": align_opt}
 
         if param_dict["stats_option"] == "full":
             stats_list = []

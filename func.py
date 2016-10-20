@@ -280,6 +280,7 @@ def file_analysis(param_dict, file_path):
     source = param_dict["source_bool"]
     perc_toggle = param_dict["percentage_toggled"]
     targ_range = param_dict["reference_target_range"]
+    align_opt = param_dict["alignment_option"]
 
     if ref_path != '':
         r = open(ref_path, 'r')
@@ -300,9 +301,20 @@ def file_analysis(param_dict, file_path):
     population.sort(key=species_name)
     if del_repeats:
         new_population = []
-        split_list = split_list_sp(population)
         with tempfile.TemporaryDirectory() as tmp_dir:
-            temp_files = temp_aligned_sp(split_list, tmp_dir)
+            if align_opt == "sub":
+                split_list = split_list_sp(population)
+                temp_files = temp_aligned_sp(split_list, tmp_dir)
+            elif align_opt == "whole":
+                whole_aligned = species_muscle(population)
+                temp_fas = tempfile.NamedTemporaryFile(suffix=".fas", dir=tmp_dir).name
+                fas = open(temp_fas, 'w')
+                AlignIO.write(whole_aligned, fas, 'fasta')
+                fas.close()
+                temp_files = [temp_fas]
+            elif align_opt == "even":
+                split_list = [population[i: i+100] for i in range(0, len(population), 100)]
+                temp_files = temp_aligned_sp(split_list, tmp_dir)
             aligned = prof_align_loop(temp_files, tmp_dir, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
