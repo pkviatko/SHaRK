@@ -284,7 +284,8 @@ Any files (*.*)''')
                       "source_bool": self.checksourceBox.isChecked(),
                       "percentage_toggled": self.percentageRadio.isChecked(),
                       "stats_option": "full",
-                      "reference_target_range": [85, 674]}
+                      "reference_target_range": [85, 674],
+                      "alignment_option": "even"}
 
         if param_dict["stats_option"] == "full":
             stats_list = []
