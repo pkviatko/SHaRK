@@ -311,6 +311,9 @@ def file_analysis(param_dict, file_path):
             AlignIO.write(whole_aligned, fas, 'fasta')
             fas.close()
             temp_files = [temp_fas]
+        elif align_opt == "even":
+            split_list = [population[i: i+100] for i in range(0, len(population), 100)]
+            temp_files = temp_aligned_sp(split_list)
         aligned = prof_align_loop(temp_files, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
