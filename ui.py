@@ -50,11 +50,13 @@ class StatsWidget(QtGui.QWidget):
 
     def populate_stats(self, show_option, stats_list):
         if show_option == "full":
-            for stat in stats_list:
-                vbox = QtGui.QVBoxLayout()
-                self.populate_vbox(vbox, stat)
-                self.horizontalLayout_2.addLayout(vbox)
-
+            for st in range(0, len(stats_list), 4):
+                hbox = QtGui.QHBoxLayout()
+                for stats in stats_list[st: st+4]:
+                    vbox = QtGui.QVBoxLayout()
+                    self.populate_vbox(vbox, stats)
+                    hbox.addLayout(vbox)
+                self.verticalLayout.addLayout(hbox)
             self.LeftArrow.setEnabled(False)
             self.RightArrow.setEnabled(False)
 #        big_vbox.setContentsMargins(5, 5, 5, 5)
