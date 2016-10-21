@@ -53,10 +53,12 @@ class StatsWidget(QtGui.QWidget):
             for st in range(0, len(stats_list), 4):
                 hbox = QtGui.QHBoxLayout()
                 for stats in stats_list[st: st+4]:
+                    frame = QtGui.QFrame()
+                    frame.setFrameStyle(QtGui.QFrame.Panel | QtGui.QFrame.Sunken)
                     vbox = QtGui.QVBoxLayout()
                     self.populate_vbox(vbox, stats)
-                    hbox.addLayout(vbox)
-                    hbox.addSpacing(5)
+                    frame.setLayout(vbox)
+                    hbox.addWidget(frame)
                 self.verticalLayout.addLayout(hbox)
                 self.verticalLayout.addSpacing(5)
             self.LeftArrow.setEnabled(False)
