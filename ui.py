@@ -298,7 +298,8 @@ Any files (*.*)''')
                       "percentage_toggled": self.percentageRadio.isChecked(),
                       "stats_option": "full",
                       "reference_target_range": [85, 674],
-                      "alignment_option": align_opt}
+                      "alignment_option": align_opt,
+                      "split_by_taxon": self.split_checkBox.isChecked()}
 
         if param_dict["stats_option"] == "full":
             stats_list = []
