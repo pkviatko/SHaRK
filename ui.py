@@ -2,7 +2,8 @@ import csv
 import ntpath
 import os
 import sys
-
+from os import listdir
+from os.path import isfile, join
 from Bio import SeqIO
 from PyQt4 import QtGui, QtCore, uic
 
@@ -50,6 +51,9 @@ class StatsWidget(QtGui.QWidget):
 
     def populate_stats(self, show_option, stats_list):
         if show_option == "full":
+            #for i in reversed(range(self.verticalLayout.count())):
+             #   layout = self.verticalLayout.itemAt(i)
+              #  QtCore.QObjectCleanupHandler().add(layout)
             for st in range(0, len(stats_list), 4):
                 hbox = QtGui.QHBoxLayout()
                 for stats in stats_list[st: st+4]:
@@ -294,7 +298,8 @@ Any files (*.*)''')
                       "percentage_toggled": self.percentageRadio.isChecked(),
                       "stats_option": "full",
                       "reference_target_range": [85, 674],
-                      "alignment_option": align_opt}
+                      "alignment_option": align_opt,
+                      "split_by_taxon": self.split_checkBox.isChecked()}
 
         if param_dict["stats_option"] == "full":
             stats_list = []
@@ -302,6 +307,8 @@ Any files (*.*)''')
                 stats = func.range_stats(func.read_check(path, False, False, '.fas'))
                 stats["file"] = os.path.basename(path)
                 stats_list.append(stats)
+            global stats_widget
+            stats_widget = StatsWidget()
             stats_widget.populate_stats("full", stats_list)
             stats_widget.show()
             stats_widget.center()
@@ -350,23 +357,34 @@ Any files (*.*)''')
             else:
                 ref = ''
             united_name = ''
-            if self.uniteBox.isChecked() is True:
-                united_name += output_dir
-                for path in input_file_path:
-                    united_name += (ntpath.basename(path)[0: len(ntpath.basename(path)) - 4])
-                    if input_file_path.index(path) != len(input_file_path) - 1:
-                        united_name += '+'
-                united_name += '.fas'
             for path in input_file_path:
                 self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path))
                 print(path)
                 progress_value += file_sizes[input_file_path.index(path)]
                 self.progressBar.setValue(progress_value)
             self.statusBar.showMessage('Processing finished')
+            self.output_stats(param_dict)
         else:
             self.alert.emit()
         self.progressBar.reset()
         self.progressBar.setEnabled(False)
+
+    def output_stats(self, params):
+        out_dir = params["output_directory"]
+        if param_dict["stats_option"] == "full":
+            stats_list = []
+            output_paths = [join(out_dir, f) for f in listdir(out_dir) if isfile(join(out_dir, f))]
+            for path in output_paths:
+                stats = func.range_stats(func.read_check(path, False, False, '.fas'))
+                stats["file"] = os.path.basename(path)
+                stats_list.append(stats)
+            global stats_widget
+            stats_widget = StatsWidget()
+            stats_widget.populate_stats("full", stats_list)
+            stats_widget.startPush.setEnabled(False)
+            stats_widget.show()
+            stats_widget.center()
+
 
     def showError(self):
         QtGui.QErrorMessage().qtHandler().showMessage('Invalid input data! Please, check again carefully.')
@@ -389,7 +407,6 @@ app = QtGui.QApplication(sys.argv)
 QtGui.QApplication.setStyle('plastique')
 pref_dialog = PrefDialog()
 about_dialog = AboutDialog()
-stats_widget = StatsWidget()
 synonyms = SynWidget()
 main = MainWindow()
 main.show()

@@ -541,7 +541,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="3">
+      <item row="2" column="0" colspan="3">
        <widget class="QCheckBox" name="showresultsBox">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show &lt;span style=&quot; font-weight:600;&quot;&gt;performance report&lt;/span&gt; with program &lt;span style=&quot; font-weight:600;&quot;&gt;run stats&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -551,7 +551,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="5" column="0">
        <widget class="QSpinBox" name="copiesnumberSpinBox">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set number of file &lt;span style=&quot; font-weight:600;&quot;&gt;copies&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -561,14 +561,14 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1" colspan="2">
+      <item row="5" column="1" colspan="2">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Copies number</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="3">
+      <item row="6" column="0" colspan="3">
        <widget class="QComboBox" name="deletionoptionCombo">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose the &lt;span style=&quot; font-weight:600;&quot;&gt;way of definig&lt;/span&gt; the &lt;span style=&quot; font-weight:600;&quot;&gt;replica composition&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -585,7 +585,7 @@
         </item>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="8" column="0">
        <widget class="QSpinBox" name="deletionnumberSpinBox">
         <property name="enabled">
          <bool>false</bool>
@@ -601,7 +601,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="7" column="0">
        <widget class="QDoubleSpinBox" name="deletionpercentDoubleSpinBox">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose the sequences &lt;span style=&quot; font-weight:600;&quot;&gt;deletion/subsampling&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;percent&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -623,7 +623,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1" colspan="2">
+      <item row="7" column="1" colspan="2">
        <widget class="QRadioButton" name="percentageRadio">
         <property name="text">
          <string>Percentage</string>
@@ -633,10 +633,17 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1" colspan="2">
+      <item row="8" column="1" colspan="2">
        <widget class="QRadioButton" name="numberRadio">
         <property name="text">
          <string>Number</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="split_checkBox">
+        <property name="text">
+         <string>Split by taxon</string>
         </property>
        </widget>
       </item>

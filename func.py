@@ -216,7 +216,7 @@ def prof_align_loop(aligned_files, temp_dir, reference=False):
 
 
 def make_copies(population, copies, del_factor, del_option,
-                reference, source, output, percentage_toggled):
+                reference, source, tax, output, percentage_toggled):
     # if reference path is not empty, reads it into memory
     if reference:
         r = open(reference, 'r')
@@ -231,6 +231,14 @@ def make_copies(population, copies, del_factor, del_option,
             population = [ref] + population
         SeqIO.write(population, so, 'fasta')
         so.close()
+
+    if tax:
+        split_pop = split_list_sp(population)
+        for group in split_pop:
+            sp = open(output.replace('.fas', '_%s.fas' % species_name(group[0])), 'w')
+            if ref:
+                group = [ref] + group
+            SeqIO.write(group, sp, 'fasta')
 
     seq_number = len(population)
     # specifies the number of records in sample files according to the sampling procedure specified by user
@@ -273,7 +281,7 @@ def file_analysis(param_dict, file_path):
     pos_tags = param_dict["positive_tags"]
     neg_tags = param_dict["negative_tags"]
     del_repeats = param_dict["delete_repeats"]
-    uni_files = ["unite_bool"]
+    uni_files = param_dict["unite_bool"]
     cp_num = param_dict["copies_number"]
     del_factor = param_dict["deletion_factor"]
     del_option = param_dict["deletion_option"]
@@ -281,6 +289,7 @@ def file_analysis(param_dict, file_path):
     perc_toggle = param_dict["percentage_toggled"]
     targ_range = param_dict["reference_target_range"]
     align_opt = param_dict["alignment_option"]
+    tax_split = param_dict["split_by_taxon"]
 
     if ref_path != '':
         r = open(ref_path, 'r')
@@ -293,7 +302,8 @@ def file_analysis(param_dict, file_path):
     file_name = ntpath.basename(file_path)
     extension = ntpath.splitext(file_path)[1]
     if uni_files is True:
-        united_name = "united_set" + extension
+        united_file = "united_name" + extension
+        united_name = os.path.join(out_dir, united_file)
     else:
         united_name = ''
     output_file_path = os.path.join(out_dir, file_name)
@@ -322,7 +332,8 @@ def file_analysis(param_dict, file_path):
     else:
         new_population = population
     append_file(united_name, new_population)
-    make_copies(new_population, cp_num, del_factor, del_option, ref_path, source, output_file_path, perc_toggle)
+    make_copies(new_population, cp_num, del_factor, del_option, ref_path, source, tax_split,
+                output_file_path, perc_toggle)
     elapsed = (time() - curr_time)
     print(elapsed)
     return elapsed
