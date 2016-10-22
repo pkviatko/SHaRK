@@ -356,13 +356,6 @@ Any files (*.*)''')
             else:
                 ref = ''
             united_name = ''
-            if self.uniteBox.isChecked() is True:
-                united_name += output_dir
-                for path in input_file_path:
-                    united_name += (ntpath.basename(path)[0: len(ntpath.basename(path)) - 4])
-                    if input_file_path.index(path) != len(input_file_path) - 1:
-                        united_name += '+'
-                united_name += '.fas'
             for path in input_file_path:
                 self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path))
                 print(path)
