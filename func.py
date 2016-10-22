@@ -273,7 +273,7 @@ def file_analysis(param_dict, file_path):
     pos_tags = param_dict["positive_tags"]
     neg_tags = param_dict["negative_tags"]
     del_repeats = param_dict["delete_repeats"]
-    uni_files = ["unite_bool"]
+    uni_files = param_dict["unite_bool"]
     cp_num = param_dict["copies_number"]
     del_factor = param_dict["deletion_factor"]
     del_option = param_dict["deletion_option"]
@@ -293,7 +293,8 @@ def file_analysis(param_dict, file_path):
     file_name = ntpath.basename(file_path)
     extension = ntpath.splitext(file_path)[1]
     if uni_files is True:
-        united_name = "united_set" + extension
+        united_file = "united_name" + extension
+        united_name = os.path.join(out_dir, united_file)
     else:
         united_name = ''
     output_file_path = os.path.join(out_dir, file_name)
