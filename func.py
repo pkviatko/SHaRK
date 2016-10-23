@@ -331,7 +331,7 @@ def file_analysis(param_dict, file_path, session_report):
             new_population.append(best_score_rec(sp, targ_range))
     else:
         new_population = population
-    append_file(united_name, new_population)
+    append_file(united_name, new_population, session_report)
     make_copies(new_population, cp_num, del_factor, del_option, ref_path, source, tax_split,
                 output_file_path, perc_toggle, session_report)
     elapsed = (time() - curr_time)
