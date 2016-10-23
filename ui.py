@@ -378,13 +378,7 @@ Any files (*.*)''')
                 work_range += s
             self.progressBar.setRange(0, work_range)
             progress_value = 0
-            if self.referencepathLine.text() != '':
-                r = open(self.referencepathLine.text(), 'r')
-                ref = SeqIO.read(r, 'fasta')
-                r.close()
-            else:
-                ref = ''
-            united_name = ''
+
             for path in input_file_path:
                 self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path))
                 print(path)
