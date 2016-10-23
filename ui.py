@@ -43,6 +43,29 @@ class AboutDialog(QtGui.QDialog):
         uic.loadUi("about.ui", self)
 
 
+class ReportWidget(QtGui.QWidget):
+    def __init__(self):
+        QtGui.QWidget.__init__(self)
+        self.setWindowTitle("Session report")
+
+    def populate_vbox(self, stats_dict):
+        vbox = QtGui.QVBoxLayout()
+        for key, val in stats_dict.items():
+            l = QtGui.QLabel()
+            if key == "runtime":
+                l.setText('<b>Runtime</b> was <b>%s</b>' % str(val))
+            else:
+                l.setText('Number of <b>%s</b> is <b>%s</b>' % (key, (str(val))))
+            l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+            vbox.addWidget(l)
+        self.setLayout(vbox)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+
+
 class StatsWidget(QtGui.QWidget):
 
     def __init__(self):
@@ -278,6 +301,8 @@ Any files (*.*)''')
 
     def first_step(self):
         global param_dict
+        global session_report
+        session_report = func.SessionStats()
         if self.align_opt_comboBox.currentIndex() == 0:
             align_opt = 'whole'
         elif self.align_opt_comboBox.currentIndex() == 1:
@@ -314,6 +339,7 @@ Any files (*.*)''')
             stats_widget.center()
 
     def analyse_that(self):
+        global session_report
 
         output_dir = self.outputfilepathLine.text()
         output_dir += os.sep
@@ -328,6 +354,8 @@ Any files (*.*)''')
             if os.path.isfile(path) is False:
                 counter += 1
                 print('input path is wrong')
+            else:
+                session_report.i_files += 1
         if self.referencepathLine.text() != '' and os.path.isfile(self.referencepathLine.text()) is False:
             counter += 1
             print('reference path is wrong')
@@ -344,6 +372,8 @@ Any files (*.*)''')
                 for s in seqs:
                     size += 1
                 p.close()
+
+                session_report.i_seqs += size
                 file_sizes.append(size)
             work_range = 0
             for s in file_sizes:
@@ -364,6 +394,7 @@ Any files (*.*)''')
                 self.progressBar.setValue(progress_value)
             self.statusBar.showMessage('Processing finished')
             self.output_stats(param_dict)
+            self.showReport()
         else:
             self.alert.emit()
         self.progressBar.reset()
@@ -384,6 +415,13 @@ Any files (*.*)''')
             stats_widget.startPush.setEnabled(False)
             stats_widget.show()
             stats_widget.center()
+
+    def showReport(self):
+        global report
+        report = ReportWidget()
+        report.populate_vbox(session_report.produce_dict())
+        report.show()
+        report.center()
 
 
     def showError(self):
