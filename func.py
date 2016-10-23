@@ -320,6 +320,7 @@ def file_analysis(param_dict, file_path, session_report):
                 perc_toggle, session_report)
     elapsed = (time() - curr_time)
     print(elapsed)
+    session_report.runtime += elapsed
     return elapsed
 
 

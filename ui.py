@@ -48,12 +48,12 @@ class ReportWidget(QtGui.QWidget):
 
     def populate_vbox(self, stats_dict):
         vbox = QtGui.QVBoxLayout()
-        for v, k in stats_dict.items():
+        for key, val in stats_dict.items():
             l = QtGui.QLabel()
-            if v == "runtime":
-                l.setText('<b>Runtime</b> was <b>%s</b>' % str(k))
+            if key == "runtime":
+                l.setText('<b>Runtime</b> was <b>%s</b>' % str(val))
             else:
-                l.setText('There was <b>%s</b> <b>%s</b>' % (func.full_stats_dict[k], str(v)))
+                l.setText('Number of <b>%s</b> is <b>%s</b>' % (key, (str(val))))
             l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
             vbox.addWidget(l)
         self.setLayout(vbox)
@@ -356,7 +356,7 @@ Any files (*.*)''')
                     size += 1
                 p.close()
 
-                session_report.i_seqs += 1
+                session_report.i_seqs += size
                 file_sizes.append(size)
             work_range = 0
             for s in file_sizes:
