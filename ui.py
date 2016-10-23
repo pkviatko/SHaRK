@@ -45,6 +45,7 @@ class AboutDialog(QtGui.QDialog):
 class ReportWidget(QtGui.QWidget):
     def __init__(self):
         QtGui.QWidget.__init__(self)
+        self.setWindowTitle("Session report")
 
     def populate_vbox(self, stats_dict):
         vbox = QtGui.QVBoxLayout()
