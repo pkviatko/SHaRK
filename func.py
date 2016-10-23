@@ -74,7 +74,7 @@ def species_name(record):
             name = s.group()
         else:
             name = str(record.description)
-        name = name.lstrip('|_ ')
+        name = name.strip('|_ ')
 #        print(name)
         return name
 # finds a taxon name in record description(primarily a species) and returns it
