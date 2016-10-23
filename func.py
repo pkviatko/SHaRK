@@ -324,3 +324,13 @@ class SessionStats:
         self.o_files = 0
         self.o_seqs = 0
         self.runtime = 0.0
+
+    def produce_dict(self):
+        run_dict = collections.OrderedDict()
+        run_dict["input files"] = self.i_files
+        run_dict["input sequences"] = self.i_seqs
+        run_dict["output files"] = self.o_files
+        run_dict["output sequences"] = self.o_seqs
+        run_dict["runtime"] = round(self.runtime, 4)
+        return run_dict
+
