@@ -268,6 +268,8 @@ def append_file(uni_filename, writable_seqs):
 
 
 def file_analysis(param_dict, file_path):
+    curr_time = time()
+
     out_dir = param_dict["output_directory"]
     ref_path = param_dict["reference_path"]
     pos_tags = param_dict["positive_tags"]
@@ -288,7 +290,6 @@ def file_analysis(param_dict, file_path):
     else:
         ref = ''
 
-    curr_time = time()
     file_name = ntpath.basename(file_path)
     extension = ntpath.splitext(file_path)[1]
     if uni_files is True:
@@ -314,3 +315,12 @@ def file_analysis(param_dict, file_path):
     elapsed = (time() - curr_time)
     print(elapsed)
     return elapsed
+
+
+class SessionStats:
+    def __init__(self):
+        self.i_files = 0
+        self.i_seqs = 0
+        self.o_files = 0
+        self.o_seqs = 0
+        self.runtime = 0.0
