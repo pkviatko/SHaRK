@@ -42,6 +42,28 @@ class AboutDialog(QtGui.QDialog):
         uic.loadUi("about.ui", self)
 
 
+class ReportWidget(QtGui.QWidget):
+    def __init__(self):
+        QtGui.QWidget.__init__(self)
+
+    def populate_vbox(self, stats_dict):
+        vbox = QtGui.QVBoxLayout()
+        for v, k in stats_dict.items():
+            l = QtGui.QLabel()
+            if v == "runtime":
+                l.setText('<b>Runtime</b> was <b>%s</b>' % str(k))
+            else:
+                l.setText('There was <b>%s</b> <b>%s</b>' % (func.full_stats_dict[k], str(v)))
+            l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+            vbox.addWidget(l)
+        self.setLayout(vbox)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+
+
 class StatsWidget(QtGui.QWidget):
 
     def __init__(self):
@@ -357,15 +379,24 @@ Any files (*.*)''')
                         united_name += '+'
                 united_name += '.fas'
             for path in input_file_path:
-                self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path))
+                self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path,
+                                                                                                    session_report))
                 print(path)
                 progress_value += file_sizes[input_file_path.index(path)]
                 self.progressBar.setValue(progress_value)
             self.statusBar.showMessage('Processing finished')
+            self.showReport()
         else:
             self.alert.emit()
         self.progressBar.reset()
         self.progressBar.setEnabled(False)
+
+    def showReport(self):
+        global report
+        report = ReportWidget()
+        report.populate_vbox(session_report.produce_dict())
+        report.show()
+        report.center()
 
     def showError(self):
         QtGui.QErrorMessage().qtHandler().showMessage('Invalid input data! Please, check again carefully.')
