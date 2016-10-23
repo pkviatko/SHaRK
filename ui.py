@@ -304,7 +304,7 @@ Any files (*.*)''')
         if param_dict["stats_option"] == "full":
             stats_list = []
             for path in input_file_path:
-                stats = func.range_stats(func.read_check(path, False, False, '.fas'))
+                stats = func.range_stats(func.read_check(path, False, False, ntpath.splitext(path)[1]))
                 stats["file"] = os.path.basename(path)
                 stats_list.append(stats)
             global stats_widget
