@@ -298,13 +298,6 @@ def file_analysis(param_dict, file_path, session_report):
     align_opt = param_dict["alignment_option"]
     tax_split = param_dict["split_by_taxon"]
 
-    if ref_path != '':
-        r = open(ref_path, 'r')
-        ref = SeqIO.read(r, 'fasta')
-        r.close()
-    else:
-        ref = ''
-
     file_name = ntpath.basename(file_path)
     extension = ntpath.splitext(file_path)[1]
     if uni_files is True:
