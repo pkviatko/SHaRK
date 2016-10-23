@@ -380,7 +380,8 @@ Any files (*.*)''')
             progress_value = 0
 
             for path in input_file_path:
-                self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path))
+                self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path,
+                                                                                                    session_report))
                 print(path)
                 progress_value += file_sizes[input_file_path.index(path)]
                 self.progressBar.setValue(progress_value)
