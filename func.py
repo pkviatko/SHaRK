@@ -303,6 +303,7 @@ def file_analysis(param_dict, file_path, session_report):
     if uni_files is True:
         united_file = "united_name" + extension
         united_name = os.path.join(out_dir, united_file)
+        session_report.o_files += 1
     else:
         united_name = ''
     output_file_path = os.path.join(out_dir, file_name)
