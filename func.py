@@ -216,7 +216,7 @@ def prof_align_loop(aligned_files, temp_dir, reference=False):
 
 
 def make_copies(population, copies, del_factor, del_option,
-                reference, source, output, percentage_toggled):
+                reference, source, output, percentage_toggled, session_report):
     # if reference path is not empty, reads it into memory
     if reference:
         r = open(reference, 'r')
@@ -229,6 +229,8 @@ def make_copies(population, copies, del_factor, del_option,
         so = open(output.replace('.fas', '(0).fas'), 'w')
         if ref:
             population = [ref] + population
+        session_report.o_files += 1
+        session_report.o_seqs += len(population)
         SeqIO.write(population, so, 'fasta')
         so.close()
 
@@ -254,20 +256,23 @@ def make_copies(population, copies, del_factor, del_option,
             if ref:
                 sub_pop = [ref] + sub_pop
             w = open(output.replace('.fas', '(%s).fas' % s), 'w')
+            session_report.o_files += 1
+            session_report.o_seqs += len(sub_pop)
             SeqIO.write(sub_pop, w, 'fasta')
             w.close()
 # writes a number of copies of fasta file with a certain sampling pattern
 
 
-def append_file(uni_filename, writable_seqs):
+def append_file(uni_filename, writable_seqs, session_report):
     if uni_filename:
+        session_report.o_seqs += len(writable_seqs)
         with open(uni_filename, 'a') as u:
             SeqIO.write(writable_seqs, u, 'fasta')
             u.close()
 # appends a list of sequences to a fasta file for uniting taxa into one file
 
 
-def file_analysis(param_dict, file_path):
+def file_analysis(param_dict, file_path, session_report):
     curr_time = time()
 
     out_dir = param_dict["output_directory"]
@@ -310,8 +315,9 @@ def file_analysis(param_dict, file_path):
             new_population.append(best_score_rec(sp, targ_range))
     else:
         new_population = population
-    append_file(united_name, new_population)
-    make_copies(new_population, cp_num, del_factor, del_option, ref_path, source, output_file_path, perc_toggle)
+    append_file(united_name, new_population, session_report)
+    make_copies(new_population, cp_num, del_factor, del_option, ref_path, source, output_file_path,
+                perc_toggle, session_report)
     elapsed = (time() - curr_time)
     print(elapsed)
     return elapsed

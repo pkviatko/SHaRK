@@ -300,6 +300,7 @@ Any files (*.*)''')
             stats_widget.center()
 
     def analyse_that(self):
+        global session_report
 
         output_dir = self.outputfilepathLine.text()
         output_dir += os.sep
@@ -314,6 +315,8 @@ Any files (*.*)''')
             if os.path.isfile(path) is False:
                 counter += 1
                 print('input path is wrong')
+            else:
+                session_report.i_files += 1
         if self.referencepathLine.text() != '' and os.path.isfile(self.referencepathLine.text()) is False:
             counter += 1
             print('reference path is wrong')
@@ -330,6 +333,8 @@ Any files (*.*)''')
                 for s in seqs:
                     size += 1
                 p.close()
+
+                session_report.i_seqs += 1
                 file_sizes.append(size)
             work_range = 0
             for s in file_sizes:
@@ -344,6 +349,7 @@ Any files (*.*)''')
                 ref = ''
             united_name = ''
             if self.uniteBox.isChecked() is True:
+                session_report.o_files += 1
                 united_name += output_dir
                 for path in input_file_path:
                     united_name += (ntpath.basename(path)[0: len(ntpath.basename(path)) - 4])
