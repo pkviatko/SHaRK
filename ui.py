@@ -74,9 +74,7 @@ class StatsWidget(QtGui.QWidget):
 
     def populate_stats(self, show_option, stats_list):
         if show_option == "full":
-            #for i in reversed(range(self.verticalLayout.count())):
-             #   layout = self.verticalLayout.itemAt(i)
-              #  QtCore.QObjectCleanupHandler().add(layout)
+
             for st in range(0, len(stats_list), 4):
                 hbox = QtGui.QHBoxLayout()
                 for stats in stats_list[st: st+4]:
