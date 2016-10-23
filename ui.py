@@ -272,6 +272,9 @@ Any files (*.*)''')
 
     def first_step(self):
         global param_dict
+        global session_report
+        session_report = func.SessionStats()
+
         param_dict = {"output_directory": self.outputfilepathLine.text(),
                       "reference_path": self.referencepathLine.text(),
                       "positive_tags": self.req_tags_Line.text(),
