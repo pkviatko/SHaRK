@@ -302,7 +302,7 @@ def file_analysis(param_dict, file_path):
     file_name = ntpath.basename(file_path)
     extension = ntpath.splitext(file_path)[1]
     if uni_files is True:
-        united_file = "united_name" + extension
+        united_file = "united_name.fas"
         united_name = os.path.join(out_dir, united_file)
     else:
         united_name = ''
