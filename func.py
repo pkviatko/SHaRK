@@ -353,12 +353,13 @@ class TruncStats:
 
     def trunc_ranges(self):
         trunc_dict = collections.OrderedDict()
-        trunc_dict["Minimum truncation range"] = str((max(self.starts), min(self.ends)))
-        trunc_dict["Maximum truncation range"] = str((min(self.starts), max(self.ends)))
-        trunc_dict["Mean truncation range"] = str((sum(self.starts)/len(self.starts), sum(self.ends)/len(self.ends)))
-        trunc_dict["Median truncation range"] = str((scoreatpercentile(self.starts, per=50),
-                                                     scoreatpercentile(self.ends, per=50)))
-        trunc_dict["Percentile truncation range"] = str((scoreatpercentile(self.starts, per=97.5),
-                                                         scoreatpercentile(self.ends, per=2.5)))
+        trunc_dict["Minimum truncation range"] = [max(self.starts), min(self.ends)]
+        trunc_dict["Maximum truncation range"] = [min(self.starts), max(self.ends)]
+        trunc_dict["Mean truncation range"] = [round(sum(self.starts)/len(self.starts), 1),
+                                               round(sum(self.ends)/len(self.ends), 1)]
+        trunc_dict["Median truncation range"] = [round(scoreatpercentile(self.starts, per=50), 1),
+                                                 round(scoreatpercentile(self.ends, per=50), 1)]
+        trunc_dict["Percentile truncation range"] = [round(scoreatpercentile(self.starts, per=87.5), 1),
+                                                     round(scoreatpercentile(self.ends, per=12.5), 1)]
         return trunc_dict
 

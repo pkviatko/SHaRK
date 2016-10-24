@@ -93,9 +93,9 @@ class TruncRanges(QtGui.QDialog):
         self.setWindowTitle("Truncation range")
 
     def populate_vbox(self, stats_dict):
-        for k, v in reversed(stats_dict.items()):
+        for k, v in stats_dict.items():
             l = QtGui.QLabel()
-            l.setText('<b>%s</b> is <b>%s</b> ' % (k, str(v)))
+            l.setText('<b>%s</b> is <b>%s</b> ' % (k, str(v[0])+" : "+str(v[1])))
             l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
             self.vbox.addWidget(l)
         self.setLayout(self.vbox)
