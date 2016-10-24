@@ -301,7 +301,7 @@ def file_analysis(param_dict, file_path, session_report):
     file_name = ntpath.basename(file_path)
     extension = ntpath.splitext(file_path)[1]
     if uni_files is True:
-        united_file = "united_name" + extension
+        united_file = "united_name.fas"
         united_name = os.path.join(out_dir, united_file)
         session_report.o_files += 1
     else:
@@ -340,6 +340,31 @@ def file_analysis(param_dict, file_path, session_report):
     return elapsed
 
 
+class TruncStats:
+    def __init__(self):
+        self.ends = []
+        self.starts = []
+
+    def get_start_end(self, rec):
+        whole = len(rec.seq.lower())
+        start = whole - len(rec.seq.lower().lstrip('-n'))
+        self.starts.append(start)
+        end = len(rec.seq.lower().rstrip('-n'))
+        self.ends.append(end)
+
+    def trunc_ranges(self):
+        trunc_dict = collections.OrderedDict()
+        trunc_dict["Minimum truncation range"] = [max(self.starts), min(self.ends)]
+        trunc_dict["Maximum truncation range"] = [min(self.starts), max(self.ends)]
+        trunc_dict["Mean truncation range"] = [round(sum(self.starts)/len(self.starts), 1),
+                                               round(sum(self.ends)/len(self.ends), 1)]
+        trunc_dict["Median truncation range"] = [round(scoreatpercentile(self.starts, per=50), 1),
+                                                 round(scoreatpercentile(self.ends, per=50), 1)]
+        trunc_dict["Percentile truncation range"] = [round(scoreatpercentile(self.starts, per=87.5), 1),
+                                                     round(scoreatpercentile(self.ends, per=12.5), 1)]
+        return trunc_dict
+
+
 class SessionStats:
     def __init__(self):
         self.i_files = 0
@@ -356,4 +381,3 @@ class SessionStats:
         run_dict["output sequences"] = self.o_seqs
         run_dict["runtime"] = round(self.runtime, 4)
         return run_dict
-

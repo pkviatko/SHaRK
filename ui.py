@@ -106,6 +106,27 @@ class StatsWidget(QtGui.QWidget):
         self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
 
 
+class TruncRanges(QtGui.QDialog):
+
+    def __init__(self):
+        QtGui.QDialog.__init__(self)
+        self.vbox = QtGui.QVBoxLayout()
+        self.setWindowTitle("Truncation range")
+
+    def populate_vbox(self, stats_dict):
+        for k, v in stats_dict.items():
+            l = QtGui.QLabel()
+            l.setText('<b>%s</b> is <b>%s</b> ' % (k, str(v[0])+" : "+str(v[1])))
+            l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+            self.vbox.addWidget(l)
+        self.setLayout(self.vbox)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+
+
 class SynWidget(QtGui.QWidget):
     def __init__(self):
         QtGui.QWidget.__init__(self)
@@ -301,6 +322,8 @@ Any files (*.*)''')
         global param_dict
         global session_report
         session_report = func.SessionStats()
+        global trunc_range
+        trunc_range = func.TruncStats()
         if self.align_opt_comboBox.currentIndex() == 0:
             align_opt = 'whole'
         elif self.align_opt_comboBox.currentIndex() == 1:
@@ -327,7 +350,7 @@ Any files (*.*)''')
         if param_dict["stats_option"] == "full":
             stats_list = []
             for path in input_file_path:
-                stats = func.range_stats(func.read_check(path, False, False, '.fas'))
+                stats = func.range_stats(func.read_check(path, False, False, ntpath.splitext(path)[1]))
                 stats["file"] = os.path.basename(path)
                 stats_list.append(stats)
             global stats_widget
@@ -368,11 +391,13 @@ Any files (*.*)''')
                 seqs = SeqIO.parse(p, 'fasta')
                 size = 0
                 for s in seqs:
+                    trunc_range.get_start_end(s)
                     size += 1
                 p.close()
 
                 session_report.i_seqs += size
                 file_sizes.append(size)
+
             work_range = 0
             for s in file_sizes:
                 work_range += s
@@ -388,6 +413,7 @@ Any files (*.*)''')
             self.statusBar.showMessage('Processing finished')
             self.output_stats(param_dict)
             self.showReport()
+            self.show_trunc()
         else:
             self.alert.emit()
         self.progressBar.reset()
@@ -416,6 +442,13 @@ Any files (*.*)''')
         report.show()
         report.center()
 
+    def show_trunc(self):
+        global trunc_widget
+        trunc_widget = TruncRanges()
+        global trunc_range
+        trunc_widget.populate_vbox(trunc_range.trunc_ranges())
+        trunc_widget.show()
+        trunc_widget.center()
 
     def showError(self):
         QtGui.QErrorMessage().qtHandler().showMessage('Invalid input data! Please, check again carefully.')
