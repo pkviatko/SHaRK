@@ -337,3 +337,28 @@ def file_analysis(param_dict, file_path):
     elapsed = (time() - curr_time)
     print(elapsed)
     return elapsed
+
+
+class TruncStats:
+    def __init__(self):
+        self.ends = []
+        self.starts = []
+
+    def get_start_end(self, rec):
+        whole = len(rec.seq.lower())
+        start = whole - len(rec.seq.lower().lstrip('-n'))
+        self.starts.append(start)
+        end = len(rec.seq.lower().rstrip('-n'))
+        self.ends.append(end)
+
+    def trunc_ranges(self):
+        trunc_dict = collections.OrderedDict()
+        trunc_dict["Minimum truncation range"] = str((max(self.starts), min(self.ends)))
+        trunc_dict["Maximum truncation range"] = str((min(self.starts), max(self.ends)))
+        trunc_dict["Mean truncation range"] = str((sum(self.starts)/len(self.starts), sum(self.ends)/len(self.ends)))
+        trunc_dict["Median truncation range"] = str((scoreatpercentile(self.starts, per=50),
+                                                     scoreatpercentile(self.ends, per=50)))
+        trunc_dict["Maximum truncation range"] = str((scoreatpercentile(self.starts, per=97.5),
+                                                      scoreatpercentile(self.ends, per=2.5)))
+        return trunc_dict
+
