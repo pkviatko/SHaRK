@@ -388,7 +388,7 @@ Any files (*.*)''')
                 progress_value += file_sizes[input_file_path.index(path)]
                 self.progressBar.setValue(progress_value)
             self.statusBar.showMessage('Processing finished')
-            self.output_stats(param_dict)
+            #self.output_stats(param_dict)
             self.show_trunc()
         else:
             self.alert.emit()
@@ -412,11 +412,12 @@ Any files (*.*)''')
             stats_widget.center()
 
     def show_trunc(self):
-        widget = TruncRanges()
+        global trunc_widget
+        trunc_widget = TruncRanges()
         global trunc_range
-        widget.populate_vbox(trunc_range.trunc_ranges())
-        widget.show()
-        widget.center()
+        trunc_widget.populate_vbox(trunc_range.trunc_ranges())
+        trunc_widget.show()
+        trunc_widget.center()
 
     def showError(self):
         QtGui.QErrorMessage().qtHandler().showMessage('Invalid input data! Please, check again carefully.')
