@@ -358,7 +358,7 @@ class TruncStats:
         trunc_dict["Mean truncation range"] = str((sum(self.starts)/len(self.starts), sum(self.ends)/len(self.ends)))
         trunc_dict["Median truncation range"] = str((scoreatpercentile(self.starts, per=50),
                                                      scoreatpercentile(self.ends, per=50)))
-        trunc_dict["Maximum truncation range"] = str((scoreatpercentile(self.starts, per=97.5),
-                                                      scoreatpercentile(self.ends, per=2.5)))
+        trunc_dict["Percentile truncation range"] = str((scoreatpercentile(self.starts, per=97.5),
+                                                         scoreatpercentile(self.ends, per=2.5)))
         return trunc_dict
 
