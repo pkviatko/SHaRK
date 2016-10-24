@@ -85,6 +85,27 @@ class StatsWidget(QtGui.QWidget):
         self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
 
 
+class TruncRanges(QtGui.QDialog):
+
+    def __init__(self):
+        QtGui.QDialog.__init__(self)
+        self.vbox = QtGui.QVBoxLayout()
+        self.setWindowTitle("Truncation range")
+
+    def populate_vbox(self, stats_dict):
+        for k, v in reversed(stats_dict.items()):
+            l = QtGui.QLabel()
+            l.setText('<b>%s</b> is <b>%s</b> ' % (k, str(v)))
+            l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+            self.vbox.addWidget(l)
+        self.setLayout(self.vbox)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+
+
 class SynWidget(QtGui.QWidget):
     def __init__(self):
         QtGui.QWidget.__init__(self)
@@ -278,6 +299,8 @@ Any files (*.*)''')
 
     def first_step(self):
         global param_dict
+        global trunc_range
+        trunc_range = func.TruncStats()
         if self.align_opt_comboBox.currentIndex() == 0:
             align_opt = 'whole'
         elif self.align_opt_comboBox.currentIndex() == 1:
@@ -342,9 +365,11 @@ Any files (*.*)''')
                 seqs = SeqIO.parse(p, 'fasta')
                 size = 0
                 for s in seqs:
+                    trunc_range.get_start_end(s)
                     size += 1
                 p.close()
                 file_sizes.append(size)
+
             work_range = 0
             for s in file_sizes:
                 work_range += s
@@ -364,6 +389,7 @@ Any files (*.*)''')
                 self.progressBar.setValue(progress_value)
             self.statusBar.showMessage('Processing finished')
             self.output_stats(param_dict)
+            self.show_trunc()
         else:
             self.alert.emit()
         self.progressBar.reset()
@@ -385,6 +411,12 @@ Any files (*.*)''')
             stats_widget.show()
             stats_widget.center()
 
+    def show_trunc(self):
+        widget = TruncRanges()
+        global trunc_range
+        widget.populate_vbox(trunc_range.trunc_ranges())
+        widget.show()
+        widget.center()
 
     def showError(self):
         QtGui.QErrorMessage().qtHandler().showMessage('Invalid input data! Please, check again carefully.')
