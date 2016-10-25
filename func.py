@@ -311,24 +311,37 @@ def file_analysis(param_dict, file_path, session_report):
     population.sort(key=species_name)
     if del_repeats:
         new_population = []
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            if align_opt == "sub":
-                split_list = split_list_sp(population)
-                temp_files = temp_aligned_sp(split_list, tmp_dir)
-            elif align_opt == "whole":
-                whole_aligned = species_muscle(population)
-                temp_fas = tempfile.NamedTemporaryFile(suffix=".fas", dir=tmp_dir).name
-                fas = open(temp_fas, 'w')
-                AlignIO.write(whole_aligned, fas, 'fasta')
-                fas.close()
-                temp_files = [temp_fas]
-            elif align_opt == "even":
-                split_list = [population[i: i+100] for i in range(0, len(population), 100)]
-                temp_files = temp_aligned_sp(split_list, tmp_dir)
-            aligned = prof_align_loop(temp_files, tmp_dir, ref_path)
-        split_aligned = split_list_sp(aligned)
-        for sp in split_aligned:
-            new_population.append(best_score_rec(sp, targ_range))
+        if align_opt == "simple":
+            for rec in population:
+                if len(new_population):
+                    if species_name(rec) == species_name(new_population[-1]):
+                        if compare_align_score(new_population[-1], rec) == 2:
+                            new_population = new_population[:-1]
+                            new_population.append(rec)
+
+                    else:
+                        new_population.append(rec)
+                else:
+                    new_population.append(rec)
+        else:
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                if align_opt == "sub":
+                    split_list = split_list_sp(population)
+                    temp_files = temp_aligned_sp(split_list, tmp_dir)
+                elif align_opt == "whole":
+                    whole_aligned = species_muscle(population)
+                    temp_fas = tempfile.NamedTemporaryFile(suffix=".fas", dir=tmp_dir).name
+                    fas = open(temp_fas, 'w')
+                    AlignIO.write(whole_aligned, fas, 'fasta')
+                    fas.close()
+                    temp_files = [temp_fas]
+                elif align_opt == "even":
+                    split_list = [population[i: i+100] for i in range(0, len(population), 100)]
+                    temp_files = temp_aligned_sp(split_list, tmp_dir)
+                aligned = prof_align_loop(temp_files, tmp_dir, ref_path)
+            split_aligned = split_list_sp(aligned)
+            for sp in split_aligned:
+                new_population.append(best_score_rec(sp, targ_range))
     else:
         new_population = population
     append_file(united_name, new_population, session_report)
