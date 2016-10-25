@@ -328,8 +328,10 @@ Any files (*.*)''')
             align_opt = 'whole'
         elif self.align_opt_comboBox.currentIndex() == 1:
             align_opt = 'sub'
-        else:
+        elif self.align_opt_comboBox.currentIndex() == 2:
             align_opt = 'even'
+        else:
+            align_opt = 'simple'
 
         param_dict = {"output_directory": self.outputfilepathLine.text(),
                       "reference_path": self.referencepathLine.text(),

@@ -353,6 +353,19 @@ def file_analysis(param_dict, file_path, session_report):
     return elapsed
 
 
+def compare_align_score(seq1, seq2):
+    sq1 = str(seq1.seq)
+    sq2 = str(seq2.seq)
+    strp_sq1 = re.sub('[nN-]', '', sq1)
+    strp_sq2 = re.sub('[nN-]', '', sq2)
+    if len(strp_sq1) < len(strp_sq2):
+        verdict = 2
+    else:
+        verdict = 1
+    # print(str(len(strp_sq1)) + ' and ' + str(len(strp_sq2)))
+    return verdict
+
+
 class TruncStats:
     def __init__(self):
         self.ends = []
