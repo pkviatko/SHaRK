@@ -93,7 +93,7 @@ def split_list_sp(seq_list):
 # splits the sequence population by species name into sub-populations of the same species
 
 
-def species_muscle(seqs, iters=1, gap_open=-400):
+def species_muscle(seqs, iters=2, gap_open=-400):
     muscle_cline = MuscleCommandline(maxiters=iters, quiet=True, gapopen=float(gap_open))
     muscle_child = subprocess.Popen(str(muscle_cline),
                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -122,7 +122,7 @@ def temp_align_file(sp, dir_name):
 # uses species_muscle to create temporary alignments for species sub-lists
 
 
-def profile_muscle(fas1, fas2, iters=1, gap_open=-400):
+def profile_muscle(fas2, fas1, iters=2, gap_open=-400):
     muscle_cline = MuscleCommandline(maxiters=iters, quiet=True, gapopen=float(gap_open),
                                      profile=True, in1=fas1, in2=fas2)
     muscle_child = subprocess.Popen(str(muscle_cline),
@@ -130,7 +130,7 @@ def profile_muscle(fas1, fas2, iters=1, gap_open=-400):
                                     universal_newlines=True)
     profile_aligned_out = AlignIO.read(muscle_child.stdout, 'fasta')
     muscle_child.stdout.close()
-    return profile_aligned_out
+    return profile_aligned_out[1:]
 # uses muscle to align two alignments, returning the aligned list
 
 
@@ -208,19 +208,9 @@ def best_score_rec(rec_list, ref_range):
 
 def prof_align_loop(aligned_files, temp_dir, reference=False):
     if reference:
-        aligned_files = [reference] + aligned_files
-    temp_fas = tempfile.NamedTemporaryFile(dir=temp_dir, suffix=".fas", delete=False).name
-    for i in range(1, len(aligned_files)):
-        if i == 1:
-            prof = profile_muscle(aligned_files[0], aligned_files[1])
-
-        else:
-            prof = profile_muscle(temp_fas, aligned_files[i])
-        fas1 = open(temp_fas, 'w')
-        AlignIO.write(prof, fas1, 'fasta')
-        fas1.close()
-    wh = open(temp_fas, 'r')
-    whole_aligned = [r for r in SeqIO.parse(wh, 'fasta')][1:]
+        pool = ThreadPool(cpu_count()+1)
+        whole_aligned = pool.map(partial(profile_muscle, fas1=reference), aligned_files)
+        whole_aligned = [item for sublist in whole_aligned for item in sublist]
     return whole_aligned
 
 
@@ -332,7 +322,7 @@ def file_analysis(param_dict, file_path, session_report):
                 fas.close()
                 temp_files = [temp_fas]
             elif align_opt == "even":
-                part = round(len(population)/500) + 1
+                part = round(len(population)/(len(population) // 75 + 1))+1
                 split_list = [population[i: i+part] for i in range(0, len(population), part)]
                 temp_files = temp_aligned_sp(split_list, tmp_dir)
             print("Without profile time is")
