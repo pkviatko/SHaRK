@@ -2,6 +2,7 @@ import collections
 import csv
 import ntpath
 import os.path
+from os import cpu_count
 import re
 import subprocess
 import tempfile
@@ -9,6 +10,9 @@ from itertools import groupby
 from operator import itemgetter
 from random import sample
 from time import time
+from functools import partial
+
+from multiprocessing.dummy import Pool as ThreadPool
 
 from Bio import SeqIO, AlignIO
 from Bio.Align.Applications import MuscleCommandline
@@ -89,7 +93,7 @@ def split_list_sp(seq_list):
 # splits the sequence population by species name into sub-populations of the same species
 
 
-def species_muscle(seqs, iters=2, gap_open=-400):
+def species_muscle(seqs, iters=1, gap_open=-400):
     muscle_cline = MuscleCommandline(maxiters=iters, quiet=True, gapopen=float(gap_open))
     muscle_child = subprocess.Popen(str(muscle_cline),
                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -103,17 +107,22 @@ def species_muscle(seqs, iters=2, gap_open=-400):
 
 
 def temp_aligned_sp(sp_group_list, dir_name):
-    sp_prof_file_names = []
-    for sp in sp_group_list:
-        with tempfile.NamedTemporaryFile(suffix='.fas', delete=False, dir=dir_name, mode='w') as tmp:
-            sp_aligned = species_muscle(sp)
-            AlignIO.write(sp_aligned, tmp, 'fasta')
-            sp_prof_file_names.append(tmp.name)
-    return sp_prof_file_names
+    pool = ThreadPool(cpu_count()+1)
+    sp_temp_file_list = pool.map(partial(temp_align_file, dir_name=dir_name), sp_group_list)
+    pool.close()
+    pool.join()
+    return sp_temp_file_list
+
+
+def temp_align_file(sp, dir_name):
+    with tempfile.NamedTemporaryFile(suffix='.fas', delete=False, dir=dir_name, mode='w') as tmp:
+        sp_aligned = species_muscle(sp)
+        AlignIO.write(sp_aligned, tmp, 'fasta')
+        return tmp.name
 # uses species_muscle to create temporary alignments for species sub-lists
 
 
-def profile_muscle(fas1, fas2, iters=2, gap_open=-400):
+def profile_muscle(fas1, fas2, iters=1, gap_open=-400):
     muscle_cline = MuscleCommandline(maxiters=iters, quiet=True, gapopen=float(gap_open),
                                      profile=True, in1=fas1, in2=fas2)
     muscle_child = subprocess.Popen(str(muscle_cline),
@@ -323,8 +332,11 @@ def file_analysis(param_dict, file_path, session_report):
                 fas.close()
                 temp_files = [temp_fas]
             elif align_opt == "even":
-                split_list = [population[i: i+100] for i in range(0, len(population), 100)]
+                part = round(len(population)/500) + 1
+                split_list = [population[i: i+part] for i in range(0, len(population), part)]
                 temp_files = temp_aligned_sp(split_list, tmp_dir)
+            print("Without profile time is")
+            print(time()-curr_time)
             aligned = prof_align_loop(temp_files, tmp_dir, ref_path)
         split_aligned = split_list_sp(aligned)
         for sp in split_aligned:
