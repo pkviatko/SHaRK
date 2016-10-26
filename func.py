@@ -93,8 +93,8 @@ def split_list_sp(seq_list):
 # splits the sequence population by species name into sub-populations of the same species
 
 
-def species_muscle(seqs, iters=2, gap_open=-400):
-    muscle_cline = MuscleCommandline(maxiters=iters, quiet=True, gapopen=float(gap_open))
+def species_muscle(seqs, iters=1, gap_open=-400):
+    muscle_cline = MuscleCommandline(maxiters=iters, quiet=True, gapopen=float(gap_open), diags=True)
     muscle_child = subprocess.Popen(str(muscle_cline),
                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
@@ -122,9 +122,9 @@ def temp_align_file(sp, dir_name):
 # uses species_muscle to create temporary alignments for species sub-lists
 
 
-def profile_muscle(fas2, fas1, iters=2, gap_open=-400):
+def profile_muscle(fas2, fas1, iters=1, gap_open=-400):
     muscle_cline = MuscleCommandline(maxiters=iters, quiet=True, gapopen=float(gap_open),
-                                     profile=True, in1=fas1, in2=fas2)
+                                     profile=True, in1=fas1, in2=fas2, diags=True)
     muscle_child = subprocess.Popen(str(muscle_cline),
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
@@ -210,6 +210,8 @@ def prof_align_loop(aligned_files, temp_dir, reference=False):
     if reference:
         pool = ThreadPool(cpu_count()+1)
         whole_aligned = pool.map(partial(profile_muscle, fas1=reference), aligned_files)
+        pool.close()
+        pool.join()
         whole_aligned = [item for sublist in whole_aligned for item in sublist]
     return whole_aligned
 
