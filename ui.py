@@ -2,7 +2,8 @@ import csv
 import ntpath
 import os
 import sys
-
+from os import listdir
+from os.path import isfile, join
 from Bio import SeqIO
 from PyQt4 import QtGui, QtCore, uic
 
@@ -42,6 +43,29 @@ class AboutDialog(QtGui.QDialog):
         uic.loadUi("about.ui", self)
 
 
+class ReportWidget(QtGui.QWidget):
+    def __init__(self):
+        QtGui.QWidget.__init__(self)
+        self.setWindowTitle("Session report")
+
+    def populate_vbox(self, stats_dict):
+        vbox = QtGui.QVBoxLayout()
+        for key, val in stats_dict.items():
+            l = QtGui.QLabel()
+            if key == "runtime":
+                l.setText('<b>Runtime</b> was <b>%s</b>' % str(val))
+            else:
+                l.setText('Number of <b>%s</b> is <b>%s</b>' % (key, (str(val))))
+            l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+            vbox.addWidget(l)
+        self.setLayout(vbox)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+
+
 class StatsWidget(QtGui.QWidget):
 
     def __init__(self):
@@ -50,11 +74,17 @@ class StatsWidget(QtGui.QWidget):
 
     def populate_stats(self, show_option, stats_list):
         if show_option == "full":
-            for stat in stats_list:
-                vbox = QtGui.QVBoxLayout()
-                self.populate_vbox(vbox, stat)
-                self.horizontalLayout_2.addLayout(vbox)
 
+            for st in range(0, len(stats_list), 4):
+                hbox = QtGui.QHBoxLayout()
+                for stats in stats_list[st: st+4]:
+                    frame = QtGui.QFrame()
+                    frame.setFrameStyle(QtGui.QFrame.StyledPanel | QtGui.QFrame.Plain)
+                    vbox = QtGui.QVBoxLayout()
+                    self.populate_vbox(vbox, stats)
+                    frame.setLayout(vbox)
+                    hbox.addWidget(frame)
+                self.verticalLayout.addLayout(hbox)
             self.LeftArrow.setEnabled(False)
             self.RightArrow.setEnabled(False)
 #        big_vbox.setContentsMargins(5, 5, 5, 5)
@@ -69,6 +99,27 @@ class StatsWidget(QtGui.QWidget):
             l.setText('<b>%s</b> is <b>%s</b> ' % (func.full_stats_dict[k], str(v)))
             l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
             vbox.addWidget(l)
+
+    def center(self):
+        screen = QtGui.QDesktopWidget().screenGeometry()
+        size = self.geometry()
+        self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+
+
+class TruncRanges(QtGui.QDialog):
+
+    def __init__(self):
+        QtGui.QDialog.__init__(self)
+        self.vbox = QtGui.QVBoxLayout()
+        self.setWindowTitle("Truncation range")
+
+    def populate_vbox(self, stats_dict):
+        for k, v in stats_dict.items():
+            l = QtGui.QLabel()
+            l.setText('<b>%s</b> is <b>%s</b> ' % (k, str(v[0])+" : "+str(v[1])))
+            l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+            self.vbox.addWidget(l)
+        self.setLayout(self.vbox)
 
     def center(self):
         screen = QtGui.QDesktopWidget().screenGeometry()
@@ -175,19 +226,6 @@ class MainWindow(QtGui.QMainWindow):
         help.addAction(about)
 
         self.center()
-        global param_dict
-        param_dict = {"output_directory": self.outputfilepathLine.text(),
-                      "reference_path": self.referencepathLine.text(),
-                      "positive_tags": self.req_tags_Line.text(),
-                      "negative_tags": self.un_tags_Line.text(),
-                      "delete_repeats": self.deleterepeatsBox.isChecked(),
-                      "unite_bool": self.uniteBox.isChecked(),
-                      "copies_number": self.copiesnumberSpinBox.value(),
-                      "deletion_factor": del_factor,
-                      "deletion_option": del_option,
-                      "source_bool": self.checksourceBox.isChecked(),
-                      "percentage_toggled": self.percentageRadio.isChecked(),
-                      "stats_option": "full"}
 
     def show_pref(self):
         pref_dialog.show()
@@ -208,7 +246,6 @@ class MainWindow(QtGui.QMainWindow):
         self.iters_spinBox.setValue(1)
         self.diagonal_checkBox.setChecked(False)
         self.silent_checkBox.setChecked(True)
-        self.alignstat_checkBox.setChecked(False)
         self.trunc_checkBox.setChecked(False)
         self.range_comboBox.setCurrentIndex(2)
         self.perc_doubleSpinBox.setValue(25)
@@ -220,8 +257,6 @@ class MainWindow(QtGui.QMainWindow):
         self.deletionpercentDoubleSpinBox.setValue(0)
         self.deletionnumberSpinBox.setValue(0)
         self.percentageRadio.setChecked(True)
-
-
 
     def set_del_option(self):
         global del_option
@@ -284,17 +319,50 @@ Any files (*.*)''')
             print(reference_path)
 
     def first_step(self):
+        global param_dict
+        global session_report
+        session_report = func.SessionStats()
+        global trunc_range
+        trunc_range = func.TruncStats()
+        if self.align_opt_comboBox.currentIndex() == 0:
+            align_opt = 'whole'
+        elif self.align_opt_comboBox.currentIndex() == 1:
+            align_opt = 'sub'
+        elif self.align_opt_comboBox.currentIndex() == 2:
+            align_opt = 'even'
+        else:
+            align_opt = 'simple'
+
+        param_dict = {"output_directory": self.outputfilepathLine.text(),
+                      "reference_path": self.referencepathLine.text(),
+                      "positive_tags": self.req_tags_Line.text(),
+                      "negative_tags": self.un_tags_Line.text(),
+                      "delete_repeats": self.deleterepeatsBox.isChecked(),
+                      "unite_bool": self.uniteBox.isChecked(),
+                      "copies_number": self.copiesnumberSpinBox.value(),
+                      "deletion_factor": del_factor,
+                      "deletion_option": del_option,
+                      "source_bool": self.checksourceBox.isChecked(),
+                      "percentage_toggled": self.percentageRadio.isChecked(),
+                      "stats_option": "full",
+                      "reference_target_range": [85, 674],
+                      "alignment_option": align_opt,
+                      "split_by_taxon": self.split_checkBox.isChecked()}
+
         if param_dict["stats_option"] == "full":
             stats_list = []
             for path in input_file_path:
-                stats = func.range_stats(func.read_check(path, False, False, '.fas'))
+                stats = func.range_stats(func.read_check(path, False, False, ntpath.splitext(path)[1]))
                 stats["file"] = os.path.basename(path)
                 stats_list.append(stats)
+            global stats_widget
+            stats_widget = StatsWidget()
             stats_widget.populate_stats("full", stats_list)
             stats_widget.show()
             stats_widget.center()
 
     def analyse_that(self):
+        global session_report
 
         output_dir = self.outputfilepathLine.text()
         output_dir += os.sep
@@ -309,6 +377,8 @@ Any files (*.*)''')
             if os.path.isfile(path) is False:
                 counter += 1
                 print('input path is wrong')
+            else:
+                session_report.i_files += 1
         if self.referencepathLine.text() != '' and os.path.isfile(self.referencepathLine.text()) is False:
             counter += 1
             print('reference path is wrong')
@@ -323,38 +393,64 @@ Any files (*.*)''')
                 seqs = SeqIO.parse(p, 'fasta')
                 size = 0
                 for s in seqs:
+                    trunc_range.get_start_end(s)
                     size += 1
                 p.close()
+
+                session_report.i_seqs += size
                 file_sizes.append(size)
+
             work_range = 0
             for s in file_sizes:
                 work_range += s
             self.progressBar.setRange(0, work_range)
             progress_value = 0
-            if self.referencepathLine.text() != '':
-                r = open(self.referencepathLine.text(), 'r')
-                ref = SeqIO.read(r, 'fasta')
-                r.close()
-            else:
-                ref = ''
-            united_name = ''
-            if self.uniteBox.isChecked() is True:
-                united_name += output_dir
-                for path in input_file_path:
-                    united_name += (ntpath.basename(path)[0: len(ntpath.basename(path)) - 4])
-                    if input_file_path.index(path) != len(input_file_path) - 1:
-                        united_name += '+'
-                united_name += '.fas'
+
             for path in input_file_path:
-                self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path))
+                self.statusBar.showMessage('Last file processed in %f seconds' % func.file_analysis(param_dict, path,
+                                                                                                    session_report))
                 print(path)
                 progress_value += file_sizes[input_file_path.index(path)]
                 self.progressBar.setValue(progress_value)
             self.statusBar.showMessage('Processing finished')
+            self.output_stats(param_dict)
+            self.showReport()
+            self.show_trunc()
         else:
             self.alert.emit()
         self.progressBar.reset()
         self.progressBar.setEnabled(False)
+
+    def output_stats(self, params):
+        out_dir = params["output_directory"]
+        if param_dict["stats_option"] == "full":
+            stats_list = []
+            output_paths = [join(out_dir, f) for f in listdir(out_dir) if isfile(join(out_dir, f))]
+            for path in output_paths:
+                stats = func.range_stats(func.read_check(path, False, False, '.fas'))
+                stats["file"] = os.path.basename(path)
+                stats_list.append(stats)
+            global stats_widget
+            stats_widget = StatsWidget()
+            stats_widget.populate_stats("full", stats_list)
+            stats_widget.startPush.setEnabled(False)
+            stats_widget.show()
+            stats_widget.center()
+
+    def showReport(self):
+        global report
+        report = ReportWidget()
+        report.populate_vbox(session_report.produce_dict())
+        report.show()
+        report.center()
+
+    def show_trunc(self):
+        global trunc_widget
+        trunc_widget = TruncRanges()
+        global trunc_range
+        trunc_widget.populate_vbox(trunc_range.trunc_ranges())
+        trunc_widget.show()
+        trunc_widget.center()
 
     def showError(self):
         QtGui.QErrorMessage().qtHandler().showMessage('Invalid input data! Please, check again carefully.')
@@ -377,7 +473,6 @@ app = QtGui.QApplication(sys.argv)
 QtGui.QApplication.setStyle('plastique')
 pref_dialog = PrefDialog()
 about_dialog = AboutDialog()
-stats_widget = StatsWidget()
 synonyms = SynWidget()
 main = MainWindow()
 main.show()

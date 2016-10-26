@@ -232,7 +232,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>60</y>
         <width>61</width>
         <height>22</height>
        </rect>
@@ -266,7 +266,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>40</y>
+        <y>90</y>
         <width>61</width>
         <height>22</height>
        </rect>
@@ -291,7 +291,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>80</y>
+        <y>130</y>
         <width>131</width>
         <height>18</height>
        </rect>
@@ -307,7 +307,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>110</y>
+        <y>150</y>
         <width>121</width>
         <height>18</height>
        </rect>
@@ -326,7 +326,7 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>10</y>
+        <y>60</y>
         <width>91</width>
         <height>21</height>
        </rect>
@@ -339,29 +339,13 @@
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>40</y>
+        <y>90</y>
         <width>151</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
        <string>Maximum number of iterations</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="alignstat_checkBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>140</y>
-        <width>121</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output the &lt;span style=&quot; font-weight:600;&quot;&gt;statistics&lt;/span&gt; for the &lt;span style=&quot; font-weight:600;&quot;&gt;output files&lt;/span&gt; after &lt;span style=&quot; font-weight:600;&quot;&gt;alignment&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>Alignment statistics</string>
       </property>
      </widget>
      <widget class="QComboBox" name="range_comboBox">
@@ -478,6 +462,52 @@
        <string>Range percentile</string>
       </property>
      </widget>
+     <widget class="QComboBox" name="align_opt_comboBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>111</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <item>
+       <property name="text">
+        <string>Full set</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Tax subsets</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Even subsets</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>No alignment</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>20</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Alignment option</string>
+      </property>
+     </widget>
      <zorder>range_comboBox</zorder>
      <zorder>gap_spinBox</zorder>
      <zorder>iters_spinBox</zorder>
@@ -485,11 +515,12 @@
      <zorder>silent_checkBox</zorder>
      <zorder>label_2</zorder>
      <zorder>label_3</zorder>
-     <zorder>alignstat_checkBox</zorder>
      <zorder>trunc_checkBox</zorder>
      <zorder>label_4</zorder>
      <zorder>perc_doubleSpinBox</zorder>
      <zorder>label_5</zorder>
+     <zorder>align_opt_comboBox</zorder>
+     <zorder>label_6</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -515,7 +546,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="3">
+      <item row="2" column="0" colspan="3">
        <widget class="QCheckBox" name="showresultsBox">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show &lt;span style=&quot; font-weight:600;&quot;&gt;performance report&lt;/span&gt; with program &lt;span style=&quot; font-weight:600;&quot;&gt;run stats&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -525,7 +556,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="5" column="0">
        <widget class="QSpinBox" name="copiesnumberSpinBox">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set number of file &lt;span style=&quot; font-weight:600;&quot;&gt;copies&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -535,14 +566,14 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1" colspan="2">
+      <item row="5" column="1" colspan="2">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Copies number</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="3">
+      <item row="6" column="0" colspan="3">
        <widget class="QComboBox" name="deletionoptionCombo">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose the &lt;span style=&quot; font-weight:600;&quot;&gt;way of definig&lt;/span&gt; the &lt;span style=&quot; font-weight:600;&quot;&gt;replica composition&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -559,7 +590,7 @@
         </item>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="8" column="0">
        <widget class="QSpinBox" name="deletionnumberSpinBox">
         <property name="enabled">
          <bool>false</bool>
@@ -575,7 +606,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="7" column="0">
        <widget class="QDoubleSpinBox" name="deletionpercentDoubleSpinBox">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose the sequences &lt;span style=&quot; font-weight:600;&quot;&gt;deletion/subsampling&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;percent&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -597,7 +628,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1" colspan="2">
+      <item row="7" column="1" colspan="2">
        <widget class="QRadioButton" name="percentageRadio">
         <property name="text">
          <string>Percentage</string>
@@ -607,10 +638,17 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1" colspan="2">
+      <item row="8" column="1" colspan="2">
        <widget class="QRadioButton" name="numberRadio">
         <property name="text">
          <string>Number</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="split_checkBox">
+        <property name="text">
+         <string>Split by taxon</string>
         </property>
        </widget>
       </item>
