@@ -134,7 +134,7 @@ class SynWidget(QtGui.QWidget):
         preface = QtGui.QLabel()
         preface.setText('<b>The current tag synonyms look like this:</b>')
         vbox.addWidget(preface)
-        for k in func.gene_synonyms:
+        for k in func.tag_synonyms:
             l = QtGui.QLabel()
             l.setText('%s' % (', '.join(k)))
             l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)

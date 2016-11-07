@@ -20,11 +20,12 @@ from scipy.stats import scoreatpercentile
 SYNONYM_FILE = r'syn.csv'
 
 f = open(SYNONYM_FILE, 'r')
-gene_synonyms = []
+tag_synonyms = []
 for s in csv.reader(f, delimiter='\t'):
-    sf = list(filter(None, s))
+    sf_nonempty = set(filter(None, s))
+    sf = set(map(lambda syn: syn.lower(), sf_nonempty))
     if sf:
-        gene_synonyms.append(sf)
+        tag_synonyms.append(sf)
 f.close()
 
 
@@ -32,12 +33,8 @@ def check_tags(descr, tags):
     final_bool = []
     for tag in tags:
         mid_count = 0
-        for syn_row in gene_synonyms:
-            loc_count = 0
-            for syn in syn_row:
-                if syn.lower() == tag.lower():
-                    loc_count += 1
-            if loc_count > 0:
+        for syn_row in tag_synonyms:
+            if tag.lower() in syn_row:
                 for syn in syn_row:
                     if syn != '' and syn.lower() in descr.lower():
                         mid_count += 1
