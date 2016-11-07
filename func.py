@@ -17,7 +17,9 @@ from Bio import SeqIO, AlignIO
 from Bio.Align.Applications import MuscleCommandline
 from scipy.stats import scoreatpercentile
 
-f = open('syn.csv', 'r')
+SYNONYM_FILE = r'syn.csv'
+
+f = open(SYNONYM_FILE, 'r')
 gene_synonyms = []
 for s in csv.reader(f, delimiter='\t'):
     sf = list(filter(None, s))
