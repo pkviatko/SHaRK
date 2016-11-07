@@ -2,17 +2,16 @@ import collections
 import csv
 import ntpath
 import os.path
-from os import cpu_count
 import re
 import subprocess
 import tempfile
+from functools import partial
 from itertools import groupby
+from multiprocessing.dummy import Pool as ThreadPool
 from operator import itemgetter
+from os import cpu_count
 from random import sample
 from time import time
-from functools import partial
-
-from multiprocessing.dummy import Pool as ThreadPool
 
 from Bio import SeqIO, AlignIO
 from Bio.Align.Applications import MuscleCommandline
