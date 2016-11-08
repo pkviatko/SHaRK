@@ -46,23 +46,21 @@ def check_tags(descr, tags):
 
 
 def read_check(input_path, req_tags, un_tags, sq_format):
-    if sq_format == '.gb' or sq_format == '.gbk':
+    if sq_format in {'.gb', '.gbk'}:
         sq_format = 'gb'
-    elif sq_format == '.fas' or sq_format == '.fasta':
+    elif sq_format in {'.fas', '.fasta'}:
         sq_format = 'fasta'
     i = open(input_path, 'r')
     if req_tags:
         tags_list = req_tags.split(', ')
-        req_seqs = [s for s in SeqIO.parse(i, sq_format) if all(b for b in check_tags(s.description, tags_list))]
+        req_seqs = [seq for seq in SeqIO.parse(i, sq_format) if all(b for b in check_tags(seq.description, tags_list))]
     else:
-        req_seqs = [s for s in SeqIO.parse(i, sq_format)]
-#    print(len(req_seqs))
+        req_seqs = [seq for seq in SeqIO.parse(i, sq_format)]
     if un_tags:
         un_list = un_tags.split(', ')
-        final_seqs = [s for s in req_seqs if not any(b for b in check_tags(s.description, un_list))]
+        final_seqs = [seq for seq in req_seqs if not any(b for b in check_tags(seq.description, un_list))]
     else:
         final_seqs = req_seqs
-#    print(len(final_seqs))
     return final_seqs
 # reads FASTA file into a list, checking the gene name
 
