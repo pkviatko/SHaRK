@@ -23,7 +23,7 @@ f = open(SYNONYM_FILE, 'r')
 tag_synonyms = []
 for s in csv.reader(f, delimiter='\t'):
     sf_nonempty = set(filter(None, s))
-    sf = set(map(lambda syn: syn.lower(), sf_nonempty))
+    sf = {syn.lower() for syn in sf_nonempty}
     if sf:
         tag_synonyms.append(sf)
 f.close()
@@ -32,13 +32,11 @@ f.close()
 def check_tags(descr, tags):
     final_bool = []
     for tag in tags:
-        mid_count = 0
+        mid_count = False
         for syn_row in tag_synonyms:
-            if tag.lower() in syn_row:
-                for syn in syn_row:
-                    if syn != '' and syn.lower() in descr.lower():
-                        mid_count += 1
-        if mid_count > 0 or tag.lower() in descr.lower():
+            if tag.lower() in syn_row and any(syn in descr.lower() for syn in syn_row):
+                mid_count = True
+        if mid_count or tag.lower() in descr.lower():
             final_bool.append(True)
         else:
             final_bool.append(False)
