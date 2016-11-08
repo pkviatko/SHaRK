@@ -17,6 +17,11 @@ from Bio import SeqIO, AlignIO
 from Bio.Align.Applications import MuscleCommandline
 from scipy.stats import scoreatpercentile
 
+FULL_STATS_DICT = {"min_length": "Minimum length", "max_length": "Maximum length",
+                   "mean_length": "Average length", "med_length": "Median length",
+                   "perc_length": "95-th percentile length", "seq_no": "Number of seqs in file",
+                   "file": "File name"}
+
 SYNONYM_FILE = r'syn.csv'
 
 f = open(SYNONYM_FILE, 'r')
@@ -62,7 +67,7 @@ def read_check(input_path, req_tags, un_tags, sq_format):
     else:
         final_seqs = req_seqs
     return final_seqs
-# reads FASTA file into a list, checking the gene name
+# reads FASTA file into a list, checking the tag name
 
 
 def species_name(record):
@@ -147,13 +152,6 @@ def range_stats(aligned_subset, perc=(95, 75)):
     stats_dict["seq_no"] = len(stats_list[0])
 
     return stats_dict
-
-full_stats_dict = {"min_length": "Minimum length", "max_length": "Maximum length",
-                   "mean_length": "Average length",
-                   "med_length": "Median length",
-                   "perc_length": "95-th percentile length",
-                   "seq_no": "Number of seqs in file",
-                   "file": "File name"}
 
 
 def best_trunc_range(split_aligned, perc=(25, 75)):

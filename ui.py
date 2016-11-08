@@ -96,7 +96,7 @@ class StatsWidget(QtGui.QWidget):
     def populate_vbox(self, vbox, stats_dict):
         for k, v in reversed(stats_dict.items()):
             l = QtGui.QLabel()
-            l.setText('<b>%s</b> is <b>%s</b> ' % (func.full_stats_dict[k], str(v)))
+            l.setText('<b>%s</b> is <b>%s</b> ' % (func.FULL_STATS_DICT[k], str(v)))
             l.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
             vbox.addWidget(l)
 
