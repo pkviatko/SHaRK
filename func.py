@@ -93,7 +93,7 @@ def split_list_sp(seq_list):
 
 
 def species_muscle(seqs, iters=1, gap_open=-400):
-    muscle_cline = MuscleCommandline(r"./muscle3.8.31_i86linux64", maxiters=iters, quiet=True, gapopen=float(gap_open), diags=True)
+    muscle_cline = MuscleCommandline(r"muscle3.8.31_i86linux64", maxiters=iters, quiet=True, gapopen=float(gap_open), diags=True)
     muscle_child = subprocess.Popen(str(muscle_cline),
                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
@@ -122,7 +122,7 @@ def temp_align_file(sp, dir_name):
 
 
 def profile_muscle(fas2, fas1, iters=1, gap_open=-400):
-    muscle_cline = MuscleCommandline(r"./muscle3.8.31_i86linux64", maxiters=iters, quiet=True, gapopen=float(gap_open),
+    muscle_cline = MuscleCommandline(r"muscle3.8.31_i86linux64", maxiters=iters, quiet=True, gapopen=float(gap_open),
                                      profile=True, in1=fas1, in2=fas2, diags=True)
     muscle_child = subprocess.Popen(str(muscle_cline),
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
