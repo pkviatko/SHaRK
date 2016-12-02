@@ -2,6 +2,7 @@ import collections
 import csv
 import ntpath
 import os.path
+from os import stat
 import re
 import subprocess
 import tempfile
@@ -93,8 +94,8 @@ def split_list_sp(seq_list):
 
 
 def species_muscle(seqs, iters=1, gap_open=-400):
-    muscle_cline = MuscleCommandline(r"muscle3.8.31_i86linux64", maxiters=iters, quiet=True, gapopen=float(gap_open), diags=True)
-    muscle_child = subprocess.Popen(str(muscle_cline),
+    muscle_cline = [r"muscle", "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags"]
+    muscle_child = subprocess.Popen(muscle_cline,
                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
     SeqIO.write(seqs, muscle_child.stdin, 'fasta')
@@ -122,9 +123,9 @@ def temp_align_file(sp, dir_name):
 
 
 def profile_muscle(fas2, fas1, iters=1, gap_open=-400):
-    muscle_cline = MuscleCommandline(r"muscle3.8.31_i86linux64", maxiters=iters, quiet=True, gapopen=float(gap_open),
-                                     profile=True, in1=fas1, in2=fas2, diags=True)
-    muscle_child = subprocess.Popen(str(muscle_cline),
+    muscle_cline = [r"muscle", "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags",
+                    "-profile", "-in1", str(fas1), "-in2", str(fas2)]
+    muscle_child = subprocess.Popen(muscle_cline,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
     profile_aligned_out = AlignIO.read(muscle_child.stdout, 'fasta')

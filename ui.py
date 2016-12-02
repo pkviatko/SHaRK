@@ -352,6 +352,7 @@ Any files (*.*)''')
         if param_dict["stats_option"] == "full":
             stats_list = []
             for path in input_file_path:
+                print(path)
                 stats = func.range_stats(func.read_check(path, False, False, ntpath.splitext(path)[1]))
                 stats["file"] = os.path.basename(path)
                 stats_list.append(stats)
@@ -413,9 +414,9 @@ Any files (*.*)''')
                 progress_value += file_sizes[input_file_path.index(path)]
                 self.progressBar.setValue(progress_value)
             self.statusBar.showMessage('Processing finished')
-            self.output_stats(param_dict)
-            self.showReport()
-            self.show_trunc()
+            #self.output_stats(param_dict)
+            #self.showReport()
+            #self.show_trunc()
         else:
             self.alert.emit()
         self.progressBar.reset()
