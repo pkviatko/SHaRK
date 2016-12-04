@@ -3,6 +3,7 @@ import csv
 import ntpath
 import os.path
 from os import stat
+import os
 import re
 import subprocess
 import tempfile
@@ -33,6 +34,11 @@ for s in csv.reader(f, delimiter='\t'):
     if sf:
         tag_synonyms.append(sf)
 f.close()
+
+if os.name == 'nt':
+    muscle_binary = 'muscle.exe'
+elif os.name == 'posix':
+    muscle_binary = 'muscle'
 
 
 def check_tags(descr, tags):
@@ -94,7 +100,7 @@ def split_list_sp(seq_list):
 
 
 def species_muscle(seqs, iters=1, gap_open=-400):
-    muscle_cline = [r"muscle", "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags"]
+    muscle_cline = [muscle_binary, "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags"]
     muscle_child = subprocess.Popen(muscle_cline,
                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
@@ -123,7 +129,7 @@ def temp_align_file(sp, dir_name):
 
 
 def profile_muscle(fas2, fas1, iters=1, gap_open=-400):
-    muscle_cline = [r"muscle", "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags",
+    muscle_cline = [muscle_binary, "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags",
                     "-profile", "-in1", str(fas1), "-in2", str(fas2)]
     muscle_child = subprocess.Popen(muscle_cline,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
