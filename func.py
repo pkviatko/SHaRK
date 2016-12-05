@@ -16,7 +16,6 @@ from random import sample
 from time import time
 
 from Bio import SeqIO, AlignIO
-from Bio.Align.Applications import MuscleCommandline
 from scipy.stats import scoreatpercentile
 
 FULL_STATS_DICT = {"min_length": "Minimum length", "max_length": "Maximum length",
