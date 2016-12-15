@@ -1,4 +1,5 @@
 import collections
+from multiprocessing import freeze_support
 import csv
 import ntpath
 import os.path
@@ -17,6 +18,7 @@ from time import time
 
 from Bio import SeqIO, AlignIO
 from scipy.stats import scoreatpercentile
+
 
 FULL_STATS_DICT = {"min_length": "Minimum length", "max_length": "Maximum length",
                    "mean_length": "Average length", "med_length": "Median length",
@@ -100,6 +102,7 @@ def split_list_sp(seq_list):
 
 def species_muscle(seqs, iters=1, gap_open=-400):
     muscle_cline = [muscle_binary, "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags"]
+    freeze_support()
     muscle_child = subprocess.Popen(muscle_cline,
                                     stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
@@ -113,6 +116,7 @@ def species_muscle(seqs, iters=1, gap_open=-400):
 
 def temp_aligned_sp(sp_group_list, dir_name):
     pool = ThreadPool(cpu_count()+1)
+    freeze_support()
     sp_temp_file_list = pool.map(partial(temp_align_file, dir_name=dir_name), sp_group_list)
     pool.close()
     pool.join()
@@ -130,6 +134,7 @@ def temp_align_file(sp, dir_name):
 def profile_muscle(fas2, fas1, iters=1, gap_open=-400):
     muscle_cline = [muscle_binary, "-maxiters", str(iters), "-quiet", "-gapopen", str(float(gap_open)), "-diags",
                     "-profile", "-in1", str(fas1), "-in2", str(fas2)]
+    freeze_support()
     muscle_child = subprocess.Popen(muscle_cline,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     universal_newlines=True)
