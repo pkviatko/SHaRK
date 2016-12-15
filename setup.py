@@ -1,9 +1,10 @@
 import sys
 from cx_Freeze import setup, Executable
 
-build_exe_options = {"packages": ["os", "scipy", "tempfile"], "excludes": ["tkinter"], "includes": ["func", "tempfile"],
-                     "include_files": [r"pic", "syn.csv", "func.py",
-                                       "window.ui", "stats.ui", "muscle.exe",
+build_exe_options = {"packages": ["os", "scipy", "numpy", "cx_Freeze", "tempfile"],
+                     "excludes": ["tkinter"],
+                     "includes": ["func", "tempfile"],
+                     "include_files": [r"pic", "syn.csv", "func.py", "window.ui", "stats.ui", "muscle.exe",
                                        "pref.ui", "about.ui"]}
 
 base = None
