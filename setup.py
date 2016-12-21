@@ -3,7 +3,7 @@ from cx_Freeze import setup, Executable
 
 build_exe_options = {"packages": ["os", "scipy", "numpy", "cx_Freeze", "tempfile"],
                      "excludes": ["tkinter"],
-                     "includes": ["func", "tempfile"],
+                     "includes": ["func", "tempfile", "scipy", "numpy", "cx_Freeze"],
                      "include_files": [r"pic", "syn.csv", "func.py", "window.ui", "stats.ui", "muscle.exe",
                                        "pref.ui", "about.ui"]}
 
