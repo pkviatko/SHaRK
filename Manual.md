@@ -2,11 +2,15 @@
 
 ##Primary processing tab.
 
-Opening file(s). Press `Ctrl + O` or [button] to open a single or multiple files. Or enter the path into the corresponding [field]. Files can be in FASTA or GenBank format.
+Opening file(s). Press `Ctrl + O` or [button] to open a single or multiple files. 
+Or enter the path into the corresponding [field]. Files can be in FASTA or GenBank format.
 
-Choosing output directory. Press `Ctrl + S` or [button] to choose a directory for output files. Or enter the path into the corresponding [field]. Output files are named as `original_name(n).extension` where `n` is the number of the copy or 0 for a file that undergone primary processing, but no resampling.
+Choosing output directory. Press `Ctrl + S` or [button] to choose a directory for output files. 
+Or enter the path into the corresponding [field]. 
+Output files are named as `original_name(n).extension` where `n` is the number of the copy or 0 for a file that undergone primary processing, but no resampling.
 
-To choose a reference file press `Ctrl + R` or [button]. Or enter the path into the corresponding [field]. The file must contain a single sequence in FASTA or GenBank format.
+To choose a reference file press `Ctrl + R` or [button]. Or enter the path into the corresponding [field]. 
+The file must contain a single sequence in FASTA or GenBank format.
 
 Enter positive and negative tags into the corresponding **field**.
 
@@ -26,7 +30,8 @@ Alignment is is used solely for the purpose of sequence comparison, so there are
 3. Alignment of even subsets
 4. Sequence comparison without alignment
 
-For now, alignment of even subsets works several times faster than taxon subsets, while 10-100 times faster than whole file alignment. Comparison without alignment is ~100 times faster than comparisons using alignment.
+For now, alignment of even subsets works several times faster than taxon subsets, while 10-100 times faster than whole file alignment. 
+Comparison without alignment is ~100 times faster than comparisons using alignment.
 
 
 ##Re-sampling tab.
