@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>246</width>
+    <width>255</width>
     <height>285</height>
    </rect>
   </property>
@@ -31,16 +31,31 @@
           <height>200</height>
          </size>
         </property>
+        <property name="dragEnabled">
+         <bool>true</bool>
+        </property>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::DragOnly</enum>
+        </property>
         <property name="alternatingRowColors">
          <bool>true</bool>
         </property>
         <property name="rootIsDecorated">
          <bool>true</bool>
         </property>
+        <property name="itemsExpandable">
+         <bool>true</bool>
+        </property>
         <property name="animated">
          <bool>true</bool>
         </property>
+        <property name="allColumnsShowFocus">
+         <bool>true</bool>
+        </property>
         <property name="headerHidden">
+         <bool>true</bool>
+        </property>
+        <property name="expandsOnDoubleClick">
          <bool>true</bool>
         </property>
         <attribute name="headerVisible">
@@ -65,8 +80,21 @@
         </column>
         <item>
          <property name="text">
-          <string>Input/Output</string>
+          <string>File</string>
          </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Input</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Output</string>
+          </property>
+         </item>
         </item>
         <item>
          <property name="text">
@@ -77,11 +105,42 @@
          <property name="text">
           <string>Data reduction</string>
          </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Sample</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Split</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Unite</string>
+          </property>
+         </item>
         </item>
         <item>
          <property name="text">
           <string>Alignment</string>
          </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Single</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Profile</string>
+          </property>
+         </item>
         </item>
         <item>
          <property name="text">
@@ -91,39 +150,22 @@
        </widget>
       </item>
       <item>
-       <widget class="QScrollArea" name="scrollArea">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <widget class="QListWidget" name="listWidget">
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::DragDrop</enum>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>110</width>
-          <height>200</height>
-         </size>
+        <property name="defaultDropAction">
+         <enum>Qt::MoveAction</enum>
         </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>106</width>
-           <height>196</height>
-          </rect>
-         </property>
-         <zorder>treeWidget</zorder>
-        </widget>
        </widget>
       </item>
      </layout>
     </item>
     <item>
      <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
       <property name="standardButtons">
        <set>QDialogButtonBox::Ok|QDialogButtonBox::Reset|QDialogButtonBox::Save</set>
       </property>
@@ -136,7 +178,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>246</width>
+     <width>255</width>
      <height>18</height>
     </rect>
    </property>

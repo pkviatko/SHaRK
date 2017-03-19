@@ -7,6 +7,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         uic.loadUi("NewSHaRK.ui", self)
+        self.treeWidget.expandAll()
+
 
 app = QtWidgets.QApplication(sys.argv)
 QtWidgets.QApplication.setStyle('fusion')
