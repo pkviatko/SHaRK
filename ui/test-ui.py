@@ -2,6 +2,13 @@ from PyQt5 import QtGui, QtCore, QtWidgets, uic
 import sys
 
 
+class AlignDialog(QtWidgets.QDialog):
+
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        uic.loadUi("Alignment.ui", self)
+
+
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
@@ -14,10 +21,13 @@ class MainWindow(QtWidgets.QMainWindow):
     def list_current_item(self):
         i = self.listWidget.currentItem()
         print(i.text())
+        if i.text() == 'Single':
+            align.show()
 
 
 app = QtWidgets.QApplication(sys.argv)
 # QtWidgets.QApplication.setStyle('fusion')
+align = AlignDialog()
 main = MainWindow()
 main.show()
 sys.exit(app.exec_())
