@@ -46,23 +46,35 @@ class Statistics(QtWidgets.QDialog):
 
 class MainWindow(QtWidgets.QMainWindow):
 
+    workflow_list = []
+
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         uic.loadUi("NewSHaRK.ui", self)
         self.treeWidget.expandAll()
 #        self.listWidget.currentItemChanged.connect(self.list_current_item)
         self.listWidget.itemDoubleClicked.connect(self.list_current_item)
+        self.listWidget.model().rowsInserted.connect(self.inserted_item)
+        self.listWidget.model().rowsMoved.connect(self.moved_item)
 
     def list_current_item(self):
         i = self.listWidget.currentItem()
+        ind = self.listWidget.indexFromItem(i)
         print(i.text())
-        if i.text() == 'Single':
-            align.show()
+        print(ind.row())
+
+    def inserted_item(self, i, first):
+        print('Item Inserted')
+        print(first)
+
+    def moved_item(self, index, start, end, what, row):
+        print('Moved item')
+        print(start, row)
+
 
 
 app = QtWidgets.QApplication(sys.argv)
 # QtWidgets.QApplication.setStyle('fusion')
-align = Alignment()
 main = MainWindow()
 main.show()
 sys.exit(app.exec_())
