@@ -2,11 +2,46 @@ from PyQt5 import QtGui, QtCore, QtWidgets, uic
 import sys
 
 
-class AlignDialog(QtWidgets.QDialog):
+class Alignment(QtWidgets.QDialog):
 
     def __init__(self):
         QtWidgets.QDialog.__init__(self)
         uic.loadUi("Alignment.ui", self)
+
+
+class Filtering(QtWidgets.QDialog):
+
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        uic.loadUi("Filtering.ui", self)
+
+
+class Input(QtWidgets.QDialog):
+
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        uic.loadUi("Input.ui", self)
+
+
+class Output(QtWidgets.QDialog):
+
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        uic.loadUi("Output.ui", self)
+
+
+class Sampling(QtWidgets.QDialog):
+
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        uic.loadUi("Sampling.ui", self)
+
+
+class Statistics(QtWidgets.QDialog):
+
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        uic.loadUi("Statistics.ui", self)
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -27,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv)
 # QtWidgets.QApplication.setStyle('fusion')
-align = AlignDialog()
+align = Alignment()
 main = MainWindow()
 main.show()
 sys.exit(app.exec_())
