@@ -52,7 +52,7 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QMainWindow.__init__(self)
         uic.loadUi("NewSHaRK.ui", self)
         self.treeWidget.expandAll()
-#        self.listWidget.currentItemChanged.connect(self.list_current_item)
+        self.listWidget.model().rowsRemoved.connect(self.removed_item)
         self.listWidget.itemDoubleClicked.connect(self.list_current_item)
         self.listWidget.model().rowsInserted.connect(self.inserted_item)
         self.listWidget.model().rowsMoved.connect(self.moved_item)
@@ -70,18 +70,21 @@ class MainWindow(QtWidgets.QMainWindow):
         print(i.text())
         print(ind.row())
 
+    def removed_item(self, i, first):
+        print('Item Removed')
+        print(first)
+
     def inserted_item(self, i, first):
         print('Item Inserted')
         print(first)
 
     def moved_item(self, index, start, end, what, row):
-        print('Moved item')
+        print('Item Moved')
         print(start, row)
 
 
-
 app = QtWidgets.QApplication(sys.argv)
-# QtWidgets.QApplication.setStyle('fusion')
+#QtWidgets.QApplication.setStyle('fusion')
 main = MainWindow()
 main.show()
 sys.exit(app.exec_())
