@@ -42,16 +42,23 @@ class WorkflowBlocks:
 
 class MainWindow(QtWidgets.QMainWindow):
 
+    current_tree_item = 0
+
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         uic.loadUi("NewSHaRK.ui", self)
         self.treeWidget.expandAll()
+        self.treeWidget.itemPressed.connect(self.tree_item)
         self.listWidget.model().rowsRemoved.connect(self.removed_item)
         self.listWidget.itemDoubleClicked.connect(self.current_item)
         self.listWidget.model().rowsInserted.connect(self.inserted_item)
         self.listWidget.model().rowsMoved.connect(self.moved_item)
         self.setAcceptDrops(True)
         self.workflow_list = []
+
+    def tree_item(self, i):
+        global current_tree_item
+        current_tree_item = i.text(0)
 
     def add_to_workflow(self, block):
         block_class = getattr(WorkflowBlocks, block)
@@ -64,24 +71,26 @@ class MainWindow(QtWidgets.QMainWindow):
     def dropEvent(self, a0: QtGui.QDropEvent):
         a0.accept()
 
-    def current_item(self):
-        i = self.listWidget.currentItem()
+    def current_item(self, i):
+        print('Item Edit')
         ind = self.listWidget.indexFromItem(i)
-        print(i.text())
         print(ind.row())
+#        print(i.text())
 
     def removed_item(self, i, first):
         print('Item Removed')
         print(first)
 
     def inserted_item(self, i, first):
+        global current_tree_item
         print('Item Inserted')
         print(first)
-        print(self.listWidget.item(first))
+        print(current_tree_item)
 
     def moved_item(self, index, start, end, what, row):
         print('Item Moved')
         print(start, row)
+
 
 
 app = QtWidgets.QApplication(sys.argv)
