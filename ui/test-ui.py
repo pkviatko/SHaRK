@@ -27,7 +27,7 @@ class WorkflowBlocks:
             QtWidgets.QDialog.__init__(self)
             uic.loadUi("Output.ui", self)
 
-    class Sampling(QtWidgets.QDialog):
+    class Sample(QtWidgets.QDialog):
 
         def __init__(self):
             QtWidgets.QDialog.__init__(self)
@@ -80,21 +80,28 @@ class MainWindow(QtWidgets.QMainWindow):
     def removed_item(self, i, first):
         print('Item Removed')
         print(first)
+        print(self.workflow_list.pop(first))
 
     def inserted_item(self, i, first):
         global current_tree_item
+        block_class = getattr(WorkflowBlocks, current_tree_item)
+        instance = block_class()
+        if first > len(self.workflow_list)-1:
+            self.workflow_list.append(instance)
+        else:
+            self.workflow_list.insert(first, instance)
         print('Item Inserted')
         print(first)
         print(current_tree_item)
+        print(self.workflow_list)
 
     def moved_item(self, index, start, end, what, row):
         print('Item Moved')
         print(start, row)
 
 
-
 app = QtWidgets.QApplication(sys.argv)
-#QtWidgets.QApplication.setStyle('fusion')
+# QtWidgets.QApplication.setStyle('fusion')
 main = MainWindow()
 main.show()
 sys.exit(app.exec_())
