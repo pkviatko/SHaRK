@@ -3,17 +3,6 @@ import sys
 
 
 class WorkflowBlocks:
-    class Alignment(QtWidgets.QDialog):
-
-        def __init__(self):
-            QtWidgets.QDialog.__init__(self)
-            uic.loadUi("Alignment.ui", self)
-
-    class Filtering(QtWidgets.QDialog):
-
-        def __init__(self):
-            QtWidgets.QDialog.__init__(self)
-            uic.loadUi("Filtering.ui", self)
 
     class Input(QtWidgets.QDialog):
 
@@ -27,11 +16,41 @@ class WorkflowBlocks:
             QtWidgets.QDialog.__init__(self)
             uic.loadUi("Output.ui", self)
 
+    class Filtering(QtWidgets.QDialog):
+
+        def __init__(self):
+            QtWidgets.QDialog.__init__(self)
+            uic.loadUi("Filtering.ui", self)
+
+    class Reduction(QtWidgets.QDialog):
+
+        def __init__(self):
+            QtWidgets.QDialog.__init__(self)
+            uic.loadUi("Reduction.ui", self)
+
     class Sample(QtWidgets.QDialog):
 
         def __init__(self):
             QtWidgets.QDialog.__init__(self)
             uic.loadUi("Sampling.ui", self)
+
+    class Splitting(QtWidgets.QDialog):
+
+        def __init__(self):
+            QtWidgets.QDialog.__init__(self)
+            uic.loadUi("Splitting.ui", self)
+
+    class Integration(QtWidgets.QDialog):
+
+        def __init__(self):
+            QtWidgets.QDialog.__init__(self)
+            uic.loadUi("Integration.ui", self)
+
+    class Alignment(QtWidgets.QDialog):
+
+        def __init__(self):
+            QtWidgets.QDialog.__init__(self)
+            uic.loadUi("Alignment.ui", self)
 
     class Statistics(QtWidgets.QDialog):
 

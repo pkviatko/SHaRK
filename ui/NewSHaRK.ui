@@ -144,29 +144,42 @@
         </item>
         <item>
          <property name="text">
-          <string>Filtering</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Data reduction</string>
+          <string>Cleaning</string>
          </property>
          <property name="flags">
           <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
          </property>
          <item>
           <property name="text">
-           <string>Sample</string>
+           <string>Filtering</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Split</string>
+           <string>Reduction</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sample editing</string>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+         <item>
+          <property name="text">
+           <string>Sampling</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Unite</string>
+           <string>Splitting</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Integration</string>
           </property>
          </item>
         </item>
@@ -174,19 +187,6 @@
          <property name="text">
           <string>Alignment</string>
          </property>
-         <property name="flags">
-          <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
-         </property>
-         <item>
-          <property name="text">
-           <string>Single</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Profile</string>
-          </property>
-         </item>
         </item>
         <item>
          <property name="text">
