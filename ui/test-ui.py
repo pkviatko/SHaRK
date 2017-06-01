@@ -28,7 +28,7 @@ class WorkflowBlocks:
             QtWidgets.QDialog.__init__(self)
             uic.loadUi("Reduction.ui", self)
 
-    class Sample(QtWidgets.QDialog):
+    class Sampling(QtWidgets.QDialog):
 
         def __init__(self):
             QtWidgets.QDialog.__init__(self)
@@ -94,7 +94,7 @@ class MainWindow(QtWidgets.QMainWindow):
         print('Item Edit')
         ind = self.listWidget.indexFromItem(i)
         print(ind.row())
-#        print(i.text())
+        self.workflow_list[ind.row()].show()
 
     def removed_item(self, i, first):
         print('Item Removed')
@@ -120,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 app = QtWidgets.QApplication(sys.argv)
-# QtWidgets.QApplication.setStyle('fusion')
+QtWidgets.QApplication.setStyle('fusion')
 main = MainWindow()
 main.show()
 sys.exit(app.exec_())
