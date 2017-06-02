@@ -90,37 +90,46 @@ class MainWindow(QtWidgets.QMainWindow):
     def dropEvent(self, a0: QtGui.QDropEvent):
         a0.accept()
 
-    def current_item(self, i):
-        print('Item Edit')
-        ind = self.listWidget.indexFromItem(i)
-        print(ind.row())
+    def current_item(self, item):
+        # print('Item Edit')
+        ind = self.listWidget.indexFromItem(item)
+        # print(ind.row())
         self.workflow_list[ind.row()].show()
 
-    def removed_item(self, i, first):
+    def removed_item(self, i, position):
         print('Item Removed')
-        print(first)
-        print(self.workflow_list.pop(first))
+        print(position)
+        print(self.workflow_list.pop(position))
 
-    def inserted_item(self, i, first):
+    def inserted_item(self, i, position):
         global current_tree_item
         block_class = getattr(WorkflowBlocks, current_tree_item)
         instance = block_class()
-        if first > len(self.workflow_list)-1:
+        if position > len(self.workflow_list)-1:
             self.workflow_list.append(instance)
         else:
-            self.workflow_list.insert(first, instance)
-        print('Item Inserted')
-        print(first)
-        print(current_tree_item)
+            self.workflow_list.insert(position, instance)
+        # print('Item Inserted')
+        # print(first)
+        # print(current_tree_item)
         print(self.workflow_list)
 
     def moved_item(self, index, start, end, what, row):
         print('Item Moved')
         print(start, row)
+        n_blocks = len(self.workflow_list)
+        block_moved = self.workflow_list.pop(start)
+        if row == n_blocks:
+            self.workflow_list.append(block_moved)
+        elif row < start:
+            self.workflow_list.insert(row, block_moved)
+        elif row > start:
+            self.workflow_list.insert(row-1, block_moved)
+        print(self.workflow_list)
 
 
 app = QtWidgets.QApplication(sys.argv)
-QtWidgets.QApplication.setStyle('fusion')
+# QtWidgets.QApplication.setStyle('fusion')
 main = MainWindow()
 main.show()
 sys.exit(app.exec_())
