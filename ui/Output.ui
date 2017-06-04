@@ -7,15 +7,77 @@
     <x>0</x>
     <y>0</y>
     <width>237</width>
-    <height>137</height>
+    <height>173</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLineEdit" name="lineEdit"/>
+   <item row="1" column="0">
+    <widget class="QComboBox" name="comboBox_3">
+     <item>
+      <property name="text">
+       <string>FASTA</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>GenBank</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="checkBox_2">
+     <property name="text">
+      <string>Suffix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QCheckBox" name="checkBox">
+     <property name="text">
+      <string>Prefix</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QComboBox" name="comboBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <item>
+      <property name="text">
+       <string>Replica number</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Taxon</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Locus</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Custom</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item row="0" column="1">
     <widget class="QToolButton" name="toolButton">
@@ -24,34 +86,76 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QComboBox" name="comboBox"/>
+   <item row="0" column="0">
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="placeholderText">
+      <string>Enter output directory here</string>
+     </property>
+    </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Prefix</string>
+      <string>Format</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QComboBox" name="comboBox_2"/>
+    <widget class="QComboBox" name="comboBox_4">
+     <item>
+      <property name="text">
+       <string>Default</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Taxon</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Locus</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Custom</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QCheckBox" name="checkBox_2">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Suffix</string>
+      <string>Basename</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="4" column="0">
+    <widget class="QComboBox" name="comboBox_2">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
+     <item>
+      <property name="text">
+       <string>Replica number</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Taxon</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Locus</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Custom</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>
@@ -65,12 +169,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>227</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>172</y>
     </hint>
    </hints>
   </connection>
@@ -81,12 +185,44 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>227</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>236</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>158</x>
+     <y>97</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>145</x>
+     <y>125</y>
     </hint>
    </hints>
   </connection>

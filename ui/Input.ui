@@ -90,6 +90,11 @@
        <string>RNA</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Amino acid</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>

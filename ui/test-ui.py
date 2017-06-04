@@ -1,5 +1,6 @@
-from PyQt5 import QtGui, QtCore, QtWidgets, uic
 import sys
+
+from PyQt5 import QtGui, QtWidgets, uic
 
 
 class WorkflowBlocks:
