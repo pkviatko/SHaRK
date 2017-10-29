@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Reduction</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../pic/256x256_BlackLogo.png</normaloff>../pic/256x256_BlackLogo.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

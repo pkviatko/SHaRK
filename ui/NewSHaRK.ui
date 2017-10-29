@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>244</width>
-    <height>316</height>
+    <height>319</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string comment="Sequence Handling and Resampling Toolkit">SHaRK</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../pic/256x256_BlackLogo.png</normaloff>../pic/256x256_BlackLogo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -243,7 +247,7 @@
      <x>0</x>
      <y>0</y>
      <width>244</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

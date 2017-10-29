@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Splitting</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../pic/256x256_BlackLogo.png</normaloff>../pic/256x256_BlackLogo.png</iconset>
   </property>
   <widget class="QRadioButton" name="radioButton">
    <property name="geometry">
@@ -148,7 +152,7 @@
    </property>
    <item>
     <property name="text">
-     <string>Spiecies</string>
+     <string>Species</string>
     </property>
    </item>
    <item>
